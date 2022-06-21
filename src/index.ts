@@ -6,6 +6,8 @@ import { logger } from "../config/logger";
 const app = express();
 const PORT = 3001;
 
+app.use(express.json());
+
 app.use(usersRouter);
 
 const server = app.listen(PORT, () => {
