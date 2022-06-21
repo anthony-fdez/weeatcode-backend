@@ -8,5 +8,6 @@ const config = module.exports = {
     PGHOST: process.env.PGHOST,
     PGPASSWORD: process.env.PGPASSWORD,
     PGDATABASE: process.env.PGDATABASE,
-    PGPORT: process.env.PGPORT
+    PGPORT: process.env.PGPORT,
+    NODE_ENV: process.env.NODE_ENV
 }
