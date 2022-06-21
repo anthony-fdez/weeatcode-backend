@@ -19,7 +19,7 @@ const server = app.listen(PORT, () => {
     logger.log({
       level: 'error',
       message: `server shutting down due to unhandled rejection: ${err.stack}`
-    })
+    }) //just an example on how to use as an error
     server.close(() => {
       process.exit(1);
     })
