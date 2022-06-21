@@ -1,5 +1,6 @@
 import express, { Router, Request, Response } from "express";
 import bcrypt from "bcrypt";
+import validator from "validator";
 
 const router: Router = express.Router();
 
@@ -21,7 +22,14 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       email: req.body.email,
     };
 
-    res.send({ data: req });
+    if (!validator.isEmail(userInfo.email))
+      throw new Error("Invalid 'email' recieved");
+
+    const hashedPassword = await hashPassword({
+      textPassword: userInfo.password,
+    });
+
+    res.send({ data: hashedPassword });
   } catch (e: any) {
     console.log(e);
     res.status(500).send({ error: e.message });
