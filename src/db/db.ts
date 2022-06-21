@@ -25,6 +25,6 @@ export const query = async ({ sql }: QueryProps) => {
     return result;
   } catch (e) {
     console.log(e);
-    return null;
+   return null;
   }
 };
