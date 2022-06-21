@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "start": "ts-node-dev --respawn src/index.ts"
   },
   "keywords": [],
@@ -24,6 +24,8 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "pg": "^8.7.3"
+    "moment": "^2.29.3",
+    "pg": "^8.7.3",
+    "winston": "^3.7.2"
   }
 }

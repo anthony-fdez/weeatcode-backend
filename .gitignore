@@ -1,2 +1,14 @@
 node_modules
 .env
+
+dist
+# extra folder that RIDER IDE creates
+.idea
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
