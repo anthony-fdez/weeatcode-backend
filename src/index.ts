@@ -1,11 +1,17 @@
+import "dotenv/config";
 import express from "express";
+import { query } from "./db/db";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  console.log(req.ip);
+app.get("/", async (req, res) => {
+  console.log("1");
 
-  res.status(200).send({ msg: "good" });
+  const result = await query({ sql: "SELECT * FROM users" });
+
+  console.log(result);
+
+  res.send();
 });
 
 app.listen(3001, () => {
