@@ -1,21 +1,23 @@
+import { Response } from "express";
 import { Client, ClientConfig } from "pg";
+import config from "config";
 
 interface QueryProps {
   sql: string;
+  res: Response;
 }
 
 const credentials: ClientConfig = {
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: parseInt(process.env.PGPORT || ""),
+  user: config.get("PGUSER"),
+  host: config.get("PGHOST"),
+  database: config.get("PGDATABASE"),
+  password: config.get("PGPASSWORD"),
+  port: parseInt(config.get("PGPORT") || ""),
   ssl: true,
 };
 
-export const query = async ({ sql }: QueryProps) => {
+export const query = async ({ sql, res }: QueryProps) => {
   try {
-    
     const client = new Client(credentials);
     await client.connect();
 
@@ -25,7 +27,7 @@ export const query = async ({ sql }: QueryProps) => {
 
     return result;
   } catch (e) {
-    console.log(e);
-   return null;
+    res.status(400).send({ error: e });
+    return null;
   }
 };

@@ -1,5 +1,6 @@
+import { query } from "./../../../db/db";
+import { hashPassword } from "./../helpers/passwords";
 import express, { Router, Request, Response } from "express";
-import bcrypt from "bcrypt";
 import validator from "validator";
 
 const router: Router = express.Router();
@@ -29,37 +30,18 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       textPassword: userInfo.password,
     });
 
-    res.send({ data: hashedPassword });
+    const sql = `INSERT INTO users(name, email, password) VALUES ('${userInfo.name}', '${userInfo.email}', '${hashedPassword}')`;
+
+    const result = await query({ sql, res });
+
+    if (result) {
+      res.send({ data: "User Created" });
+    }
   } catch (e: any) {
+    console.log("helasdfaslkfhasldfhalsfhls");
     console.log(e);
-    res.status(500).send({ error: e.message });
+    res.status(400).send({ error: e });
   }
 });
-
-interface HashPasswordInterface {
-  textPassword: string;
-}
-
-interface CompareHashPasswordInterface {
-  textPassword: string;
-  hash: string;
-}
-
-const hashPassword = async ({ textPassword }: HashPasswordInterface) => {
-  const saltRounds = 10;
-
-  const hashedPassword = await bcrypt.hash(textPassword, saltRounds);
-
-  return hashedPassword;
-};
-
-const compareHashedPassword = async ({
-  textPassword,
-  hash,
-}: CompareHashPasswordInterface) => {
-  const isMatch = await bcrypt.compare(textPassword, hash);
-
-  return isMatch;
-};
 
 export default signup;
