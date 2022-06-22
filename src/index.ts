@@ -15,12 +15,15 @@ const server = app.listen(PORT, () => {
   // logger.log({
   //   level: "info",
   //   message: `listening on port: ${PORT}`,
+  //   service: "server",
   // });
 
   process.on("unhandledRejection", (err: Error) => {
     logger.log({
       level: "error",
       message: `server shutting down due to unhandled rejection: ${err.stack}`,
+      error: err,
+      service: "server",
     });
 
     server.close(() => {
