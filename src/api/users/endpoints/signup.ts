@@ -1,3 +1,4 @@
+import { logger } from "./../../../../config/logger";
 import { query } from "./../../../db/db";
 import { hashPassword } from "./../helpers/passwords";
 import express, { Router, Request, Response } from "express";
@@ -38,6 +39,12 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
     const result = await query({ sql, res });
 
     if (result) {
+      logger.log({
+        level: "info",
+        message: "User Created",
+        userInfo: result.rows,
+      });
+
       res.send({ msg: "User Created", data: result.rows });
     }
   } catch (e: any) {
