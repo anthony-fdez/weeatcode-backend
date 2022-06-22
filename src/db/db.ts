@@ -15,6 +15,7 @@ const credentials: ClientConfig = {
 
 export const query = async ({ sql }: QueryProps) => {
   try {
+    
     const client = new Client(credentials);
     await client.connect();
 

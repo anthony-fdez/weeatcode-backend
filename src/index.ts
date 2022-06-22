@@ -1,10 +1,10 @@
-import "dotenv/config";
 import express from "express";
+import config from 'config';
 import usersRouter from "./api/users/users";
 import { logger } from "../config/logger";
 
 const app = express();
-const PORT = 3001;
+const PORT = config.get('PORT')
 
 app.use(express.json());
 
