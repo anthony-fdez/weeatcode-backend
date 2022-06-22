@@ -30,12 +30,15 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       textPassword: userInfo.password,
     });
 
-    const sql = `INSERT INTO users(name, email, password) VALUES ('${userInfo.name}', '${userInfo.email}', '${hashedPassword}')`;
+    const sql = `INSERT INTO 
+    users(name, email, password) VALUES 
+    ('${userInfo.name}', '${userInfo.email}', '${hashedPassword}')
+    RETURNING name, email, password`;
 
     const result = await query({ sql, res });
 
     if (result) {
-      res.send({ data: "User Created" });
+      res.send({ msg: "User Created", data: result.rows });
     }
   } catch (e: any) {
     console.log("helasdfaslkfhasldfhalsfhls");
