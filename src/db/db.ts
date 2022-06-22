@@ -1,3 +1,4 @@
+import { logger } from "./../../config/logger";
 import { Response } from "express";
 import { Client, ClientConfig } from "pg";
 import config from "config";
@@ -26,8 +27,15 @@ export const query = async ({ sql, res }: QueryProps) => {
     await client.end();
 
     return result;
-  } catch (e) {
-    res.status(400).send({ error: e });
+  } catch (err: any) {
+    logger.log({
+      level: "error",
+      message: "SQL error",
+      error: err,
+      service: "db",
+    });
+
+    res.status(400).send({ error: err });
     return null;
   }
 };
