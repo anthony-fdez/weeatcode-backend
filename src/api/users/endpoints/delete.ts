@@ -12,7 +12,9 @@ const deleteUser = router.post(
     try {
       const sql = `WITH deleted AS (DELETE FROM users WHERE id = ${req.user?.userId} RETURNING *) SELECT count(*) FROM deleted`;
 
-      const result = await query({ sql, res });
+      const { result, err } = await query({ sql });
+
+      if (err) return res.status(400).send({ err });
 
       if (result) {
         // Needs to be double equal and not === (tripple), the response is a string or a number

@@ -22,7 +22,9 @@ const login = router.post("/login", async (req: Request, res: Response) => {
 
     const sql = `SELECT password, id FROM users WHERE email = '${userInfo.email}'`;
 
-    const result = await query({ sql, res });
+    const { result, err } = await query({ sql });
+
+    if (err) return res.status(400).send({ err });
 
     if (result) {
       if (result.rowCount === 0) {
@@ -45,7 +47,14 @@ const login = router.post("/login", async (req: Request, res: Response) => {
         userId: result.rows[0].id,
       });
 
-      res.send({
+      const tokenSql = `INSERT INTO tokens (user_id, token) VALUES (${result.rows[0].id}, '${token}')`;
+
+      // dont wait for the token to be stored in the db
+      // this will make the request take twice as long and the user will get the
+      // token anyway
+      query({ sql: tokenSql });
+
+      return res.send({
         msg: "Logged in successfully",
         token,
       });

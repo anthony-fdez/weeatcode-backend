@@ -37,7 +37,9 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
     ('${userInfo.name}', '${userInfo.email}', '${hashedPassword}')
     RETURNING name, email, password, id`;
 
-    const result = await query({ sql, res });
+    const { result, err } = await query({ sql });
+
+    if (err) return res.status(400).send({ err });
 
     if (result) {
       logger.log({
@@ -52,12 +54,9 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       });
 
       const tokenSql = `INSERT INTO tokens (user_id, token) VALUES (${result.rows[0].id}, '${token}')`;
+      query({ sql: tokenSql });
 
-      const tokenResult = await query({ sql: tokenSql, res });
-
-      if (tokenResult) {
-        return res.send({ msg: "User Created", data: result.rows, token });
-      }
+      return res.send({ msg: "User Created", data: result.rows, token });
     }
   } catch (e: any) {
     console.log(e);

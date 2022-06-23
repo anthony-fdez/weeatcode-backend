@@ -1,11 +1,9 @@
 import { logger } from "./../../config/logger";
-import { Response } from "express";
 import { Client, ClientConfig } from "pg";
 import config from "config";
 
 interface QueryProps {
   sql: string;
-  res: Response;
 }
 
 const credentials: ClientConfig = {
@@ -17,7 +15,7 @@ const credentials: ClientConfig = {
   ssl: true,
 };
 
-export const query = async ({ sql, res }: QueryProps) => {
+export const query = async ({ sql }: QueryProps) => {
   try {
     const client = new Client(credentials);
     await client.connect();
@@ -26,7 +24,7 @@ export const query = async ({ sql, res }: QueryProps) => {
 
     await client.end();
 
-    return result;
+    return { result };
   } catch (err: any) {
     logger.log({
       level: "error",
@@ -35,7 +33,6 @@ export const query = async ({ sql, res }: QueryProps) => {
       service: "db",
     });
 
-    res.status(400).send({ error: err });
-    return null;
+    return { err };
   }
 };
