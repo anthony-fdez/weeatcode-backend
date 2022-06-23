@@ -51,7 +51,13 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
         userId: result.rows[0].id,
       });
 
-      return res.send({ msg: "User Created", data: result.rows, token });
+      const tokenSql = `INSERT INTO tokens (user_id, token) VALUES (${result.rows[0].id}, '${token}')`;
+
+      const tokenResult = await query({ sql: tokenSql, res });
+
+      if (tokenResult) {
+        return res.send({ msg: "User Created", data: result.rows, token });
+      }
     }
   } catch (e: any) {
     console.log(e);
