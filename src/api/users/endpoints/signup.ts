@@ -45,7 +45,7 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
         userInfo: result.rows,
       });
 
-      res.send({ msg: "User Created", data: result.rows });
+      return res.send({ msg: "User Created", data: result.rows });
     }
   } catch (e: any) {
     console.log(e);
