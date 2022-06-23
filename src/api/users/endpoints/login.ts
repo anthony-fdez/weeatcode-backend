@@ -1,3 +1,4 @@
+import { generateToken } from "./../helpers/jwt";
 import { compareHashedPassword } from "./../helpers/passwords";
 import { query } from "./../../../db/db";
 import express, { Router, Request, Response } from "express";
@@ -19,7 +20,7 @@ const login = router.post("/login", async (req: Request, res: Response) => {
       password: req.body.password,
     };
 
-    const sql = `SELECT password FROM users WHERE email = '${userInfo.email}'`;
+    const sql = `SELECT password, id FROM users WHERE email = '${userInfo.email}'`;
 
     const result = await query({ sql, res });
 
@@ -39,8 +40,14 @@ const login = router.post("/login", async (req: Request, res: Response) => {
         return res.send({ err: "Invalid 'email' or 'password'" });
       }
 
+      const token = generateToken({
+        email: userInfo.email,
+        userId: result.rows[0].id,
+      });
+
       res.send({
         msg: "Logged in successfully",
+        token,
       });
     }
   } catch (e) {
