@@ -1,3 +1,4 @@
+import { generateToken } from "./../helpers/jwt";
 import { logger } from "./../../../../config/logger";
 import { query } from "./../../../db/db";
 import { hashPassword } from "./../helpers/passwords";
@@ -34,7 +35,7 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
     const sql = `INSERT INTO 
     users(name, email, password) VALUES 
     ('${userInfo.name}', '${userInfo.email}', '${hashedPassword}')
-    RETURNING name, email, password`;
+    RETURNING name, email, password, id`;
 
     const result = await query({ sql, res });
 
@@ -45,7 +46,12 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
         userInfo: result.rows,
       });
 
-      return res.send({ msg: "User Created", data: result.rows });
+      const token = generateToken({
+        email: userInfo.email,
+        userId: result.rows[0].id,
+      });
+
+      return res.send({ msg: "User Created", data: result.rows, token });
     }
   } catch (e: any) {
     console.log(e);

@@ -1,6 +1,6 @@
 import { compareHashedPassword } from "./../helpers/passwords";
 import { query } from "./../../../db/db";
-import express, { Router, Request, Response, response } from "express";
+import express, { Router, Request, Response } from "express";
 
 const router: Router = express.Router();
 
