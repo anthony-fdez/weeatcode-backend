@@ -1,9 +1,11 @@
+import { Model } from "sequelize";
 import { generateToken } from "./../helpers/jwt";
 import { logger } from "./../../../../config/logger";
-import { query } from "./../../../db/db";
 import { hashPassword } from "./../helpers/passwords";
 import express, { Router, Request, Response } from "express";
 import validator from "validator";
+import User from "../../../models/User";
+import Token from "../../../models/Token";
 
 const router: Router = express.Router();
 
@@ -32,35 +34,34 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       textPassword: userInfo.password,
     });
 
-    const sql = `INSERT INTO 
-    users(name, email, password) VALUES 
-    ('${userInfo.name}', '${userInfo.email}', '${hashedPassword}')
-    RETURNING name, email, password, id`;
+    const user: any = await User.create({
+      name: userInfo.name,
+      email: userInfo.email,
+      password: hashedPassword,
+    });
 
-    const { result, err } = await query({ sql });
-
-    if (err) return res.status(400).send({ err });
-
-    if (result) {
+    if (user) {
       logger.log({
         level: "info",
         message: "User Created",
-        userInfo: result.rows,
+        userInfo: user,
       });
 
-      const token = generateToken({
-        email: userInfo.email,
-        userId: result.rows[0].id,
+      const generatedToken = generateToken({
+        email: user.email,
+        userId: user.id,
       });
 
-      const tokenSql = `INSERT INTO tokens (user_id, token) VALUES (${result.rows[0].id}, '${token}')`;
-      query({ sql: tokenSql });
+      await Token.create({
+        userId: user.id,
+        token: generatedToken,
+      });
 
-      return res.send({ msg: "User Created", data: result.rows, token });
+      return res.send({ msg: "User Created", user, token: generatedToken });
     }
-  } catch (e: any) {
-    console.log(e);
-    res.status(400).send({ error: e });
+  } catch (err: any) {
+    console.log(err);
+    res.status(400).send({ error: err.errors });
   }
 });
 

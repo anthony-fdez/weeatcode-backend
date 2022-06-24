@@ -1,12 +1,16 @@
-import { logger } from "./../../config/logger";
-import { Client, ClientConfig } from "pg";
 import config from "config";
+import { Sequelize } from "sequelize";
 
-interface QueryProps {
-  sql: string;
+interface ICredentials {
+  user: string;
+  host: string;
+  database: string;
+  password: string;
+  port: number;
+  ssl: boolean;
 }
 
-const credentials: ClientConfig = {
+const credentials: ICredentials = {
   user: config.get("PGUSER"),
   host: config.get("PGHOST"),
   database: config.get("PGDATABASE"),
@@ -15,24 +19,24 @@ const credentials: ClientConfig = {
   ssl: true,
 };
 
-export const query = async ({ sql }: QueryProps) => {
-  try {
-    const client = new Client(credentials);
-    await client.connect();
-
-    const result = await client.query(sql);
-
-    await client.end();
-
-    return { result };
-  } catch (err: any) {
-    logger.log({
-      level: "error",
-      message: "SQL error",
-      error: err,
-      service: "db",
-    });
-
-    return { err };
+const db = new Sequelize(
+  credentials.database,
+  credentials.user,
+  credentials.password,
+  {
+    host: credentials.host,
+    dialect: "postgres",
+    pool: {
+      max: 5,
+      min: 0,
+    },
+    ssl: true,
+    dialectOptions: {
+      ssl: {
+        require: true,
+      },
+    },
   }
-};
+);
+
+export default db;
