@@ -1,7 +1,9 @@
 import { generateToken } from "./../helpers/jwt";
 import { compareHashedPassword } from "./../helpers/passwords";
-import { query } from "./../../../db/db";
+import db from "./../../../db/db";
 import express, { Router, Request, Response } from "express";
+import User from "../../../models/User";
+import Token from "../../../models/Token";
 
 const router: Router = express.Router();
 
@@ -20,45 +22,35 @@ const login = router.post("/login", async (req: Request, res: Response) => {
       password: req.body.password,
     };
 
-    const sql = `SELECT password, id FROM users WHERE email = '${userInfo.email}'`;
-
-    const { result, err } = await query({ sql });
-
-    if (err) return res.status(400).send({ err });
-
-    if (result) {
-      if (result.rowCount === 0) {
-        // Send invalid email even if the email doesn't exist
-        // so that people don't know the email exists
-        return res.send({ err: "Invalid 'email' or 'password'" });
-      }
-
-      const passwordsMatch = await compareHashedPassword({
-        textPassword: userInfo.password,
-        hash: result.rows[0].password,
-      });
-
-      if (!passwordsMatch) {
-        return res.send({ err: "Invalid 'email' or 'password'" });
-      }
-
-      const token = generateToken({
+    const user: any = await User.findOne({
+      where: {
         email: userInfo.email,
-        userId: result.rows[0].id,
-      });
+      },
+      attributes: ["password", "id"],
+    });
 
-      const tokenSql = `INSERT INTO tokens (user_id, token) VALUES (${result.rows[0].id}, '${token}')`;
+    if (!user) return res.status(400).send({ error: "User not found" });
 
-      // dont wait for the token to be stored in the db
-      // this will make the request take twice as long and the user will get the
-      // token anyway
-      query({ sql: tokenSql });
+    const passwordsMatch = await compareHashedPassword({
+      textPassword: userInfo.password,
+      hash: user.password,
+    });
 
-      return res.send({
-        msg: "Logged in successfully",
-        token,
-      });
+    if (!passwordsMatch) {
+      return res.send({ err: "Invalid 'email' or 'password'" });
     }
+
+    const generatedToken = generateToken({
+      email: userInfo.email,
+      userId: user.id,
+    });
+
+    await Token.create({ userId: user.id, token: generatedToken });
+
+    return res.send({
+      msg: "Logged in successfully",
+      generatedToken,
+    });
   } catch (e) {
     res.status(500).send({ e });
   }

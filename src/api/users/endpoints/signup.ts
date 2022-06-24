@@ -1,4 +1,3 @@
-import { Model } from "sequelize";
 import { generateToken } from "./../helpers/jwt";
 import { logger } from "./../../../../config/logger";
 import { hashPassword } from "./../helpers/passwords";
@@ -40,28 +39,32 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
-    if (user) {
-      logger.log({
-        level: "info",
-        message: "User Created",
-        userInfo: user,
-      });
+    if (!user) return res.status(404).send({ error: "Could not create user" });
 
-      const generatedToken = generateToken({
-        email: user.email,
-        userId: user.id,
-      });
+    logger.log({
+      level: "info",
+      message: "User Created",
+      userInfo: user,
+    });
 
-      await Token.create({
-        userId: user.id,
-        token: generatedToken,
-      });
+    const generatedToken = generateToken({
+      email: user.email,
+      userId: user.id,
+    });
 
-      return res.send({ msg: "User Created", user, token: generatedToken });
-    }
+    await Token.create({
+      userId: user.id,
+      token: generatedToken,
+    });
+
+    return res.send({ msg: "User Created", user, token: generatedToken });
   } catch (err: any) {
+    if (err.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).send({ error: "Email already in use" });
+    }
+
     console.log(err);
-    res.status(400).send({ error: err.errors });
+    res.status(400).send({ error: err });
   }
 });
 
