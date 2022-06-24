@@ -1,7 +1,9 @@
-import { query } from "./../../../db/db";
+import db from "./../../../db/db";
 import { Auth } from "./../../../middleware/Auth";
 import express, { Router, Response } from "express";
 import { IUserRequest } from "./../../../middleware/Auth";
+import User from "../../../models/User";
+import Token from "../../../models/Token";
 
 const router: Router = express.Router();
 
@@ -10,21 +12,22 @@ const deleteUser = router.post(
   Auth,
   async (req: IUserRequest, res: Response) => {
     try {
-      const sql = `WITH deleted AS (DELETE FROM users WHERE id = ${req.user?.userId} RETURNING *) SELECT count(*) FROM deleted`;
+      const deletedUser = await User.destroy({
+        where: {
+          id: req.user?.userId,
+        },
+      });
 
-      const { result, err } = await query({ sql });
+      if (!deletedUser)
+        return res.status(400).send({ error: "Could not delete user" });
 
-      if (err) return res.status(400).send({ err });
+      await Token.destroy({
+        where: {
+          userId: req.user?.userId,
+        },
+      });
 
-      if (result) {
-        // Needs to be double equal and not === (tripple), the response is a string or a number
-        // double equals handles both cases since it doesn't check type
-        if (result.rows[0].count == 0) {
-          return res.status(404).send({ err: "User not found" });
-        }
-
-        res.send({ msg: "User deleted successfully", user: req.user });
-      }
+      res.send({ msg: "User deleted successfully", user: req.user });
     } catch (e) {
       res.status(500).send({ e });
     }
