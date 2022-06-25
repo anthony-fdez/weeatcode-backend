@@ -1,4 +1,5 @@
-import express from "express";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import express, { urlencoded } from "express";
 import config from "config";
 import usersRouter from "./api/users/users";
 import { logger } from "../config/logger";
@@ -7,6 +8,7 @@ import db from "./db/db";
 const app = express();
 const PORT = config.get("PORT");
 
+app.use(urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(usersRouter);
