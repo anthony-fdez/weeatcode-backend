@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataTypes, Model } from 'sequelize';
-import db from '../db/db';
+import { DataTypes, Model } from "sequelize";
+import db from "../db/db";
 
 export interface IToken {
-  token: string,
-  userId: number,
-  createdAt?: Date,
-  updatedAt?: Date
+  token: string;
+  userId: number;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 class Token extends Model<IToken> {
@@ -18,15 +19,21 @@ class Token extends Model<IToken> {
 
 Token.init(
   {
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    token: { type: DataTypes.STRING, allowNull: false },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    token: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
-    tableName: 'Tokens',
+    tableName: "Tokens",
     underscored: false,
     freezeTableName: true,
     sequelize: db,
-  },
+  }
 );
 
 export default Token;
