@@ -31,6 +31,8 @@
     "rules": {
         "import/extensions": 0,
         "no-console": 0,
-        "max-len": 0
+        "max-len": 0,
+        "comma-dangle": 0,
+        "linebreak-style": 0
     }
 }

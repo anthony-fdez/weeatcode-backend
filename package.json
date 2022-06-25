@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV= jest --detectOpenHandles --forceExit",
+    "test": "cross-env NODE_ENV= jest --updateSnapshot --detectOpenHandles --coverage --forceExit --verbose",
     "build": "tsc",
     "lint": "eslint --max-warnings=0 --ext ts, src",
     "lint:fix": "eslint --ext ts, src --fix",
