@@ -2,9 +2,12 @@
 import { DataTypes, Model } from "sequelize";
 import db from "../db/db";
 
+
 export interface IToken {
-  userId?: number,
-  token: any
+  token: string,
+  userId: number,
+  createdAt?: Date,
+  updatedAt?: Date
 }
 
 class Token extends Model<IToken>{
@@ -16,14 +19,15 @@ class Token extends Model<IToken>{
 
 Token.init(
   {
-    userId: { type: DataTypes.INTEGER, allowNull: false },
+    userId: { type: DataTypes.INTEGER, allowNull: false},
     token: { type: DataTypes.STRING, allowNull: false }
   },
   {
     tableName: 'Tokens',
+    underscored: false,
     freezeTableName: true,
-    underscored: true,
     sequelize: db,
-  }
+  },
 )
+
 export default Token;

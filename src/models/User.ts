@@ -3,6 +3,7 @@ import config from 'config';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import db from '../db/db';
+import Token from "./Token";
 
 /**
  * with interfaces we can call them likes this
@@ -55,10 +56,12 @@ User.init(
     },
     tableName: 'Users',
     freezeTableName: true, // no alter
-    underscored: true, //underscored instead of camelcased
     sequelize: db
   },
 
 )
+
+User.hasMany(Token, { foreignKey: 'userId'});
+Token.belongsTo(User, {  foreignKey: 'userId'});
 export default User;
 
