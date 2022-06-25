@@ -10,6 +10,7 @@ const config = (module.exports = {
   PGDATABASE: process.env.PGDATABASE,
   PGPORT: process.env.PGPORT,
   NODE_ENV: process.env.NODE_ENV,
-  JWT_SECRET:
-    "this_is_the_sercret_and_needs_to_be_changed_but_for_now_it_works",
+  JWT_SECRET: process.env.JWT_SECRET,
+  BCRYPT: process.env.BCRYPT,
+  ALGORITHM: process.env.ALGORITHM
 });
