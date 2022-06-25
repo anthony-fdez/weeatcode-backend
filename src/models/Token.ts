@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataTypes, Model } from "sequelize";
-import db from "../db/db";
-
+import { DataTypes, Model } from 'sequelize';
+import db from '../db/db';
 
 export interface IToken {
   token: string,
@@ -10,8 +9,8 @@ export interface IToken {
   updatedAt?: Date
 }
 
-class Token extends Model<IToken>{
-  constructor(init?: Partial<Token>){
+class Token extends Model<IToken> {
+  constructor(init?: Partial<Token>) {
     super();
     Object.assign(this, init);
   }
@@ -19,8 +18,8 @@ class Token extends Model<IToken>{
 
 Token.init(
   {
-    userId: { type: DataTypes.INTEGER, allowNull: false},
-    token: { type: DataTypes.STRING, allowNull: false }
+    userId: { type: DataTypes.INTEGER, allowNull: false },
+    token: { type: DataTypes.STRING, allowNull: false },
   },
   {
     tableName: 'Tokens',
@@ -28,6 +27,6 @@ Token.init(
     freezeTableName: true,
     sequelize: db,
   },
-)
+);
 
 export default Token;
