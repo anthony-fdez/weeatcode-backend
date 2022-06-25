@@ -1,6 +1,5 @@
 import { generateToken } from "./../functions/generateJwt";
 import express, { Router, Request, Response } from "express";
-import { logger } from "../../../../config/logger";
 import User, { UserAttributesInterface } from "../../../models/User";
 import validator from "validator";
 
