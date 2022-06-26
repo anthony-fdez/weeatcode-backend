@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { Model, DataTypes } from "sequelize";
-import db from "../db/db";
+import db from "../../db/db";
 
 export interface PostAttributesInterface {
   title: string;

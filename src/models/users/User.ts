@@ -2,9 +2,9 @@
 import { Model, DataTypes } from "sequelize";
 import config from "config";
 import bcrypt from "bcrypt";
-import db from "../db/db";
+import db from "../../db/db";
 import Token from "./Token";
-import Post from "./Post";
+import Post from "../posts/Post";
 
 /**
  * with interfaces we can call them likes this

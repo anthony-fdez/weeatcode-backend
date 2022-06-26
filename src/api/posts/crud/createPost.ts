@@ -1,6 +1,6 @@
 import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response } from "express";
-import Post from "../../../models/Post";
+import Post from "../../../models/posts/Post";
 
 const router: Router = express.Router();
 

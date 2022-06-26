@@ -2,7 +2,7 @@ import { generateToken } from "./../functions/generateJwt";
 import { compareHashedPassword } from "./../functions/passwords";
 /* eslint-disable consistent-return */
 import express, { Router, Request, Response } from "express";
-import User, { UserAttributesInterface } from "../../../models/User";
+import User, { UserAttributesInterface } from "../../../models/users/User";
 
 const router: Router = express.Router();
 
