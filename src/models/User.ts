@@ -4,6 +4,7 @@ import config from "config";
 import bcrypt from "bcrypt";
 import db from "../db/db";
 import Token from "./Token";
+import Post from "./Post";
 
 /**
  * with interfaces we can call them likes this
@@ -59,5 +60,6 @@ User.init(
 );
 
 User.hasMany(Token, { foreignKey: "userId" });
-Token.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(Post, { foreignKey: "authorId" });
+
 export default User;

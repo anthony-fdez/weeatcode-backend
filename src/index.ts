@@ -1,38 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { urlencoded } from 'express';
-import config from 'config';
-import usersRouter from './api/users/users';
-import { logger } from '../config/logger';
-import db from './db/db';
+import express, { urlencoded } from "express";
+import config from "config";
+
+import { logger } from "../config/logger";
+import db from "./db/db";
+
+// Routers
+import usersRouter from "./api/users/users";
+import postsRouter from "./api/posts/posts";
 
 const app = express();
-const PORT = config.get('PORT');
+const PORT = config.get("PORT");
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(usersRouter);
+app.use(postsRouter);
 
 const server = app.listen(PORT, async () => {
   try {
     await db.authenticate();
     await db.sync();
-    console.log('Connected to db');
+    console.log("Connected to db");
   } catch (error: any) {
     logger.log({
-      level: 'error',
+      level: "error",
       message: `Unable to connect with db: ${error.stack}`,
       error,
-      service: 'server',
+      service: "server",
     });
   }
 
-  process.on('unhandledRejection', (err: Error) => {
+  process.on("unhandledRejection", (err: Error) => {
     logger.log({
-      level: 'error',
+      level: "error",
       message: `server shutting down due to unhandled rejection: ${err.stack}`,
       error: err,
-      service: 'server',
+      service: "server",
     });
 
     server.close(() => {
