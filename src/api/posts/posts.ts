@@ -1,10 +1,10 @@
 import express from "express";
 import { Router } from "express";
-import createPost from "./endpoints/createPost";
-import deletePost from "./endpoints/deletePost";
-import editPost from "./endpoints/editPost";
-import getAllPosts from "./endpoints/getAllPosts";
-import searchPosts from "./endpoints/searchPosts";
+import createPost from "./crud/createPost";
+import deletePost from "./crud/deletePost";
+import editPost from "./crud/editPost";
+import getAllPosts from "./crud/getAllPosts";
+import searchPosts from "./search/searchPosts";
 
 const postsRouter: Router = express.Router();
 
