@@ -1,4 +1,3 @@
-import { PostAttributesInterface } from "./../../../models/posts/Post";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response } from "express";
 import Post from "../../../models/posts/Post";

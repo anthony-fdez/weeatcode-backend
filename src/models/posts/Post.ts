@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
+import PostVote from "./PostVote";
 
 export interface PostAttributesInterface {
   title: string;
@@ -68,5 +69,7 @@ Post.init(
     sequelize: db,
   }
 );
+
+Post.hasMany(PostVote, { foreignKey: "postId" });
 
 export default Post;
