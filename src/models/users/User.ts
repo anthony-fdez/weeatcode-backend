@@ -2,9 +2,10 @@
 import { Model, DataTypes } from "sequelize";
 import config from "config";
 import bcrypt from "bcrypt";
-import db from "../db/db";
+import db from "../../db/db";
 import Token from "./Token";
-import Post from "./Post";
+import Post from "../posts/Post";
+import PostVote from "../posts/PostVote";
 
 /**
  * with interfaces we can call them likes this
@@ -61,6 +62,7 @@ User.init(
 
 User.hasMany(Token, { foreignKey: "userId" });
 User.hasMany(Post, { foreignKey: "authorId" });
+User.hasMany(PostVote, { foreignKey: "userId" });
 
 Token.belongsTo(User, { foreignKey: "userId" });
 

@@ -1,6 +1,6 @@
 import { generateToken } from "./../functions/generateJwt";
 import express, { Router, Request, Response } from "express";
-import User, { UserAttributesInterface } from "../../../models/User";
+import User, { UserAttributesInterface } from "../../../models/users/User";
 import validator from "validator";
 
 const router: Router = express.Router();

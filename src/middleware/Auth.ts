@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
-import Token from "../models/Token";
-import User, { UserAttributesInterface } from "../models/User";
+import Token from "../models/users/Token";
+import User, { UserAttributesInterface } from "../models/users/User";
 
 export interface IUserRequest extends Request {
   user?: {

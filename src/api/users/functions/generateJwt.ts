@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "config";
-import Token from "../../../models/Token";
+import Token from "../../../models/users/Token";
 
 interface NewTokenInterface {
   email: string;
