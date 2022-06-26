@@ -7,6 +7,7 @@ export interface IUserRequest extends Request {
     userId?: number;
     email: string;
     token: string;
+    userName: string;
   };
 }
 
@@ -19,21 +20,28 @@ export const Auth = async (
   if (!token) return res.json({ success: false, message: "Please log in" });
 
   try {
-    const user = await Token.findOne({
+    const user: any = await Token.findOne({
       where: { token },
-      include: { model: User, attributes: ["email"] },
+      include: { model: User, attributes: ["email", "name"] },
+      raw: true,
     });
 
     if (!user)
       return res.status(401).send({ status: "err", msg: "Please log in" });
 
-    const userId = user?.get().userId;
-    const userEmail = JSON.stringify(User.getAttributes().email);
-
-    req.user = { email: userEmail, userId, token };
+    req.user = {
+      email: user["User.email"],
+      userId: user.userId,
+      userName: user["User.name"],
+      token,
+    };
   } catch (error) {
-    res.status(401).json({ success: false, message: "Please log in" });
+    res.status(401).send({
+      status: "err",
+      message: "Please log in",
+    });
     console.log(error);
   }
+
   return next();
 };

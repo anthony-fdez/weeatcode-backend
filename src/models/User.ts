@@ -62,4 +62,6 @@ User.init(
 User.hasMany(Token, { foreignKey: "userId" });
 User.hasMany(Post, { foreignKey: "authorId" });
 
+Token.belongsTo(User, { foreignKey: "userId" });
+
 export default User;
