@@ -6,12 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV= jest --updateSnapshot --detectOpenHandles --coverage --forceExit --verbose",
     "build": "tsc",
-    "lint": "eslint --max-warnings=0 --ext ts, src",
-    "lint:fix": "eslint --ext ts, src --fix",
     "start": "ts-node-dev --respawn src/index.ts"
-  },
-  "lint-staged": {
-    "*.{ts}": "npm run lint:fix"
   },
   "keywords": [],
   "author": "",
@@ -31,11 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "eslint": "^8.12.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^16.2.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-only-warn": "^1.0.3",
     "eslint-plugin-prettier": "^4.0.0",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
@@ -50,7 +41,6 @@
     "express": "^4.18.1",
     "jest": "^28.1.1",
     "jsonwebtoken": "^8.5.1",
-    "lint-staged": "^13.0.3",
     "moment": "^2.29.3",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
