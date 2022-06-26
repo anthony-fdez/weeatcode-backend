@@ -6,6 +6,7 @@ export interface IUserRequest extends Request {
   user?: {
     userId?: number;
     email: string;
+    token: string;
   };
 }
 
@@ -29,7 +30,7 @@ export const Auth = async (
     const userId = user?.get().userId;
     const userEmail = JSON.stringify(User.getAttributes().email);
 
-    req.user = { email: userEmail, userId };
+    req.user = { email: userEmail, userId, token };
   } catch (error) {
     res.status(401).json({ success: false, message: "Please log in" });
     console.log(error);
