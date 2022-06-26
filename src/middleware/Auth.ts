@@ -23,6 +23,9 @@ export const Auth = async (
       include: { model: User, attributes: ["email"] },
     });
 
+    if (!user)
+      return res.status(401).send({ status: "err", msg: "Please log in" });
+
     const userId = user?.get().userId;
     const userEmail = JSON.stringify(User.getAttributes().email);
 

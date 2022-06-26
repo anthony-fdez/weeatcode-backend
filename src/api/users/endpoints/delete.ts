@@ -1,3 +1,4 @@
+import { UserAttributesInterface } from "./../../../models/User";
 import { Auth } from "./../../../middleware/Auth";
 import express, { Router, Response } from "express";
 import { IUserRequest } from "./../../../middleware/Auth";
@@ -11,11 +12,12 @@ const deleteUser = router.post(
   Auth,
   async (req: IUserRequest, res: Response) => {
     try {
-      const deletedUser = await User.destroy({
+      // This doesnt return the deleted user, just if if was deleted or not
+      const deletedUser: UserAttributesInterface = (await User.destroy({
         where: {
           id: req.user?.userId,
         },
-      });
+      })) as unknown as UserAttributesInterface;
 
       if (!deletedUser)
         return res.status(400).send({ error: "Could not delete user" });
@@ -26,9 +28,14 @@ const deleteUser = router.post(
         },
       });
 
-      res.send({ msg: "User deleted successfully", user: req.user });
-    } catch (e) {
-      res.status(500).send({ e });
+      res.send({
+        status: "ok",
+        msg: "User deleted successfully",
+      });
+    } catch (err) {
+      res.status(500).send({ err, status: "err" });
+
+      console.log(err);
     }
   }
 );

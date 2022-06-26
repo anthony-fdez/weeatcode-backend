@@ -35,6 +35,9 @@ const login = router.post("/login", async (req: Request, res: Response) => {
     res.send({
       status: "ok",
       msg: "Logged in successfully",
+      user: {
+        userId: user.id,
+      },
       token,
     });
   } catch (e) {

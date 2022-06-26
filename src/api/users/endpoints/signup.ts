@@ -24,11 +24,14 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       password,
     })) as unknown as UserAttributesInterface;
 
-    const token = generateToken({ email: user.email, userId: user.id });
+    const token = await generateToken({ email: user.email, userId: user.id });
 
     res.send({
       status: "ok",
       msg: "User Created",
+      user: {
+        userId: user.id,
+      },
       token,
     });
   } catch (err: any) {
