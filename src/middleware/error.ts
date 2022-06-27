@@ -1,3 +1,4 @@
+import { logger } from "./../../config/logger";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Response, Request, NextFunction } from "express";
 import { ErrorHandler } from "../utils/error/errorHandling";
@@ -21,5 +22,12 @@ export = (
   res.status(error.statusCode).send({
     status: "err",
     message: error.message,
+  });
+
+  logger.log({
+    level: "error",
+    message: `error`,
+    error,
+    service: `${_req.route.path}`,
   });
 };
