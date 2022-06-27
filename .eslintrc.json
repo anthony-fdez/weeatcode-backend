@@ -4,7 +4,6 @@
         "node": true
     },
     "extends": [
-        "airbnb-base",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended"
@@ -15,18 +14,8 @@
         "sourceType": "module"
     },
     "settings": {
-        "import/parsers": {
-            "@typescript-eslint/parser": [".js", ".ts"]
-        },
-        "import/resolver": {
-            "node": {
-                "extensions": [".js", ".ts"]
-            }
-        }
     },
     "plugins": [
-        "@typescript-eslint",
-        "only-warn"
     ],
     "rules": {
         "import/extensions": 0,
