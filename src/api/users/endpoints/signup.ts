@@ -1,13 +1,13 @@
 import { generateToken } from "./../functions/generateJwt";
 import express, { Router, Request, Response, NextFunction } from "express";
 import User, { UserAttributesInterface } from "../../../models/users/User";
-import async from "../../../middleware/async";
+import catchAsync from "../../../middleware/catchAsync";
 import validator from "validator";
 import { ErrorHandler } from "../../../utils/error/errorHandling";
 
 const router: Router = express.Router();
 
-const signup = router.post("/signup",  async(async (req: Request, res: Response, next: NextFunction) => {
+const signup = router.post("/signup",  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
 
     if (!email || !name || !password) return next(new ErrorHandler("'email', 'name' and 'password' fields are required", 400));

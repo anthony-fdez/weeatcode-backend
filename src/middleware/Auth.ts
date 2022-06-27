@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, NextFunction, Request } from "express";
 import Token from "../models/users/Token";
-import User, { UserAttributesInterface } from "../models/users/User";
+import User from "../models/users/User";
 
 export interface IUserRequest extends Request {
   user?: {
