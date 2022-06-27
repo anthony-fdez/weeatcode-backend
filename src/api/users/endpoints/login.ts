@@ -1,5 +1,5 @@
 import { generateToken } from "./../functions/generateJwt";
-import { compareHashedPassword } from "./../functions/passwords";
+import { compareHashedPasswordAsync } from "./../functions/passwords";
 /* eslint-disable consistent-return */
 import express, { Router, Request, Response } from "express";
 import User, { UserAttributesInterface } from "../../../models/User";
@@ -22,7 +22,7 @@ const login = router.post("/login", async (req: Request, res: Response) => {
 
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    const passwordsMatch = compareHashedPassword({
+    const passwordsMatch = await compareHashedPasswordAsync({
       textPassword: password,
       hash: user.password,
     });
