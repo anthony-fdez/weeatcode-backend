@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1656368312398" clover="3.2.0">
-  <project timestamp="1656368312398" name="All files">
-    <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="0" coveredelements="0" complexity="0" loc="0" ncloc="0" packages="0" files="0" classes="0"/>
+<coverage generated="1656368416913" clover="3.2.0">
+  <project timestamp="1656368416913" name="All files">
+    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="2" coveredelements="2" complexity="0" loc="2" ncloc="2" packages="1" files="1" classes="1"/>
+    <file name="default.js" path="/Users/anthonyfernandez/Projects/blog/backend/config/default.js">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+    </file>
   </project>
 </coverage>

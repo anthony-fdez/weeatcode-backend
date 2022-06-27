@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import sample from "./sample.json";
+import sample from "../sample.json";
 
 jest.setTimeout(30000);
 const port = 3001;
