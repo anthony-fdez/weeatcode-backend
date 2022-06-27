@@ -1,10 +1,10 @@
-import { Auth, IUserRequest } from "./../../../middleware/Auth";
+import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response } from "express";
 
 const router: Router = express.Router();
 
-const deletePost = router.post(
-  "/delete_post",
+const postDownvote = router.post(
+  "/downvote",
   Auth,
   async (req: IUserRequest, res: Response) => {
     try {
@@ -17,4 +17,4 @@ const deletePost = router.post(
   }
 );
 
-export default deletePost;
+export default postDownvote;

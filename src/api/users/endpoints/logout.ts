@@ -1,6 +1,6 @@
 import { Auth, IUserRequest } from "./../../../middleware/Auth";
 import express, { Router, Request, Response } from "express";
-import Token from "../../../models/Token";
+import Token from "../../../models/users/Token";
 
 const router: Router = express.Router();
 

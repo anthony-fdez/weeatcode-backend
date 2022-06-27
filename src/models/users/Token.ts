@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DataTypes, Model } from "sequelize";
-import db from "../db/db";
+import db from "../../db/db";
 import User from "./User";
 
 export interface IToken {

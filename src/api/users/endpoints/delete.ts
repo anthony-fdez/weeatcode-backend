@@ -1,9 +1,9 @@
-import { UserAttributesInterface } from "./../../../models/User";
+import { UserAttributesInterface } from "../../../models/users/User";
 import { Auth } from "./../../../middleware/Auth";
 import express, { Router, Response } from "express";
 import { IUserRequest } from "./../../../middleware/Auth";
-import User from "../../../models/User";
-import Token from "../../../models/Token";
+import User from "../../../models/users/User";
+import Token from "../../../models/users/Token";
 
 const router: Router = express.Router();
 

@@ -1,10 +1,10 @@
-import { Auth, IUserRequest } from "./../../../middleware/Auth";
+import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response } from "express";
 
 const router: Router = express.Router();
 
-const getAllPosts = router.post(
-  "/get_all_posts",
+const searchPosts = router.post(
+  "/search_posts",
   Auth,
   async (req: IUserRequest, res: Response) => {
     try {
@@ -17,4 +17,4 @@ const getAllPosts = router.post(
   }
 );
 
-export default getAllPosts;
+export default searchPosts;

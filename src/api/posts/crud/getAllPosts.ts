@@ -1,10 +1,10 @@
-import { Auth, IUserRequest } from "./../../../middleware/Auth";
+import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response } from "express";
 
 const router: Router = express.Router();
 
-const editPost = router.post(
-  "/edit_post",
+const getAllPosts = router.post(
+  "/get_all_posts",
   Auth,
   async (req: IUserRequest, res: Response) => {
     try {
@@ -17,4 +17,4 @@ const editPost = router.post(
   }
 );
 
-export default editPost;
+export default getAllPosts;
