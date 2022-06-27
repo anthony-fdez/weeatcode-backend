@@ -4,19 +4,18 @@ import config from "config";
 
 import { logger } from "../config/logger";
 import db from "./db/db";
-
 // Routers
 import usersRouter from "./api/users/users";
 import postsRouter from "./api/posts/posts";
+import error from "./middleware/error";
 
 const app = express();
 const PORT = config.get("PORT");
-
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(usersRouter);
 app.use(postsRouter);
+app.use(error);
 
 const server = app.listen(PORT, async () => {
   try {

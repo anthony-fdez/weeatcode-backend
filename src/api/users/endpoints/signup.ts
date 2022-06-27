@@ -1,22 +1,19 @@
 import { generateToken } from "./../functions/generateJwt";
-import express, { Router, Request, Response } from "express";
+import express, { Router, Request, Response, NextFunction } from "express";
 import User, { UserAttributesInterface } from "../../../models/users/User";
+import async from "../../../middleware/async";
 import validator from "validator";
+import { ErrorHandler } from "../../../utils/error/errorHandling";
 
 const router: Router = express.Router();
 
-const signup = router.post("/signup", async (req: Request, res: Response) => {
-  try {
-    const { name, email, password } = req.body;
+const signup = router.post("/signup",  async(async (req: Request, res: Response, next: NextFunction) => {
+  const { name, email, password } = req.body;
 
-    if (!email || !name || !password) {
-      return res
-        .status(400)
-        .send({ err: "'email', 'name' and 'password' fields are required" });
-    }
+    if (!email || !name || !password) return next(new ErrorHandler("'email', 'name' and 'password' fields are required", 400));
 
     // This will verify the email is valid
-    if (!validator.isEmail(email)) throw new Error("Invalid 'email' recieved");
+    if (!validator.isEmail(email)) throw new ErrorHandler("Invalid 'email' recieved", 400);
 
     const user: UserAttributesInterface = (await User.create({
       name,
@@ -34,16 +31,6 @@ const signup = router.post("/signup", async (req: Request, res: Response) => {
       },
       token,
     });
-  } catch (err: any) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      return res.status(404).send({
-        status: "err",
-        message: "Email already in use",
-      });
-    }
-
-    res.status(400).send({ err });
-  }
-});
+}));
 
 export default signup;
