@@ -8,11 +8,18 @@ import { ErrorHandler } from "../../../utils/error/errorHandling";
 
 const router: Router = express.Router();
 
-const login = router.post("/login", catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const login = router.post(
+  "/login",
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    if (!password) return next(new ErrorHandler("Field 'password' required", 400));
-    if (!email) return next(new ErrorHandler("Field 'email' required", 400));
+    if (!password) {
+      return next(new ErrorHandler("Field 'password' required", 400));
+    }
+
+    if (!email) {
+      return next(new ErrorHandler("Field 'email' required", 400));
+    }
 
     const user: UserAttributesInterface = (await User.findOne({
       where: {
@@ -21,7 +28,7 @@ const login = router.post("/login", catchAsync(async (req: Request, res: Respons
       attributes: ["password", "id"],
     })) as unknown as UserAttributesInterface;
 
-    if (!user) return next(new ErrorHandler( "User not found", 400)); 
+    if (!user) return next(new ErrorHandler("User not found", 400));
 
     const passwordsMatch = await compareHashedPasswordAsync({
       textPassword: password,
@@ -41,6 +48,7 @@ const login = router.post("/login", catchAsync(async (req: Request, res: Respons
       },
       token,
     });
-}));
+  })
+);
 
 export default login;
