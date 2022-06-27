@@ -1,7 +1,8 @@
-import { Response, Request } from "express";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Response, Request, NextFunction } from "express";
 import { ErrorHandler } from "../utils/error/errorHandling";
 
-export = (err: ErrorHandler, _req: Request, res: Response): void => {
+export = (err: ErrorHandler, _req: Request, res: Response, _next: NextFunction): void => {
     err.statusCode = err.statusCode || 500;
     let error =  { ...err };
     error.message = err.message;
