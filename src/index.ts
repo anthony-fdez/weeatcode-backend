@@ -10,7 +10,7 @@ import postsRouter from "./api/posts/posts";
 import error from "./middleware/error";
 
 // Export the app so we can use it it the tests
-export const app = express();
+const app = express();
 const PORT = config.get("PORT");
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use(usersRouter);
 app.use(postsRouter);
 app.use(error);
 
-const server = app.listen(PORT, async () => {
+export const server = app.listen(PORT, async () => {
   try {
     await db.authenticate();
     await db.sync();
