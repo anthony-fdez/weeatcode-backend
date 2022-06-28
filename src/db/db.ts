@@ -1,5 +1,5 @@
-import config from 'config';
-import { Sequelize } from 'sequelize';
+import config from "config";
+import { Sequelize } from "sequelize";
 
 interface ICredentials {
   user: string;
@@ -11,11 +11,11 @@ interface ICredentials {
 }
 
 const credentials: ICredentials = {
-  user: config.get('PGUSER'),
-  host: config.get('PGHOST'),
-  database: config.get('PGDATABASE'),
-  password: config.get('PGPASSWORD'),
-  port: parseInt(config.get('PGPORT') || '', 10),
+  user: config.get("PGUSER"),
+  host: config.get("PGHOST"),
+  database: config.get("PGDATABASE"),
+  password: config.get("PGPASSWORD"),
+  port: parseInt(config.get("PGPORT") || "", 10),
   ssl: true,
 };
 
@@ -25,7 +25,8 @@ const db = new Sequelize(
   credentials.password,
   {
     host: credentials.host,
-    dialect: 'postgres',
+    dialect: "postgres",
+    logging: false,
     pool: {
       max: 5,
       min: 0,
@@ -36,7 +37,7 @@ const db = new Sequelize(
         require: true,
       },
     },
-  },
+  }
 );
 
 export default db;
