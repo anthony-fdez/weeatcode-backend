@@ -6,6 +6,7 @@ import User from "./User";
 export interface IToken {
   token: string;
   userId: number;
+  createdByTest?: boolean;
   id?: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -27,6 +28,11 @@ Token.init(
     token: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    createdByTest: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {

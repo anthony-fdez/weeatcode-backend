@@ -8,6 +8,7 @@ export interface PostAttributesInterface {
   body: string;
   authorId: number;
   authorName: string;
+  createdByTest?: boolean;
 
   // Optional values, not required to add when creating a post
   edited?: boolean;
@@ -61,6 +62,11 @@ Post.init(
     },
     updatedAt: {
       type: DataTypes.DATE,
+    },
+    createdByTest: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {
