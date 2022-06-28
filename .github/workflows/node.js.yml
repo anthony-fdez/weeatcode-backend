@@ -19,12 +19,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 14.x
 
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v
         with:
           node-version: 14.x
           cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
         env:
           PGUSER: ${{ secrets.PGUSER }}
           PGHOST: ${{ secrets.PGHOST }}
@@ -36,11 +39,8 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           BCRYPT: ${{ secrets.BCRYPT }}
 
-      - name: Install Dependencies
-      - run: npm ci
       - name: Run Tests
-        run: | # run multiple commands
-          npm test
+        run: npm test
         env:
           PGUSER: ${{ secrets.PGUSER }}
           PGHOST: ${{ secrets.PGHOST }}
