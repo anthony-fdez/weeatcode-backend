@@ -4,7 +4,7 @@ node_modules
 dist
 # extra folder that RIDER IDE creates
 .idea
-.coverage
+coverage
 
 # Logs
 logs
