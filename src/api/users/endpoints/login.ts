@@ -1,17 +1,25 @@
 import { generateToken } from "./../functions/generateJwt";
-import { compareHashedPassword } from "./../functions/passwords";
+import { compareHashedPasswordAsync } from "./../functions/passwords";
 /* eslint-disable consistent-return */
-import express, { Router, Request, Response } from "express";
+import express, { Router, Request, Response, NextFunction } from "express";
 import User, { UserAttributesInterface } from "../../../models/users/User";
+import catchAsync from "../../../middleware/catchAsync";
+import { ErrorHandler } from "../../../utils/error/errorHandling";
 
 const router: Router = express.Router();
 
-const login = router.post("/login", async (req: Request, res: Response) => {
-  try {
+const login = router.post(
+  "/login",
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    if (!password) throw new Error("Field 'password' required");
-    if (!email) throw new Error("Field 'email' is required.");
+    if (!password) {
+      return next(new ErrorHandler("Field 'password' required", 400));
+    }
+
+    if (!email) {
+      return next(new ErrorHandler("Field 'email' required", 400));
+    }
 
     const user: UserAttributesInterface = (await User.findOne({
       where: {
@@ -20,9 +28,9 @@ const login = router.post("/login", async (req: Request, res: Response) => {
       attributes: ["password", "id"],
     })) as unknown as UserAttributesInterface;
 
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user) return next(new ErrorHandler("User not found", 400));
 
-    const passwordsMatch = compareHashedPassword({
+    const passwordsMatch = await compareHashedPasswordAsync({
       textPassword: password,
       hash: user.password,
     });
@@ -40,10 +48,7 @@ const login = router.post("/login", async (req: Request, res: Response) => {
       },
       token,
     });
-  } catch (e) {
-    res.status(500).json({ e });
-    console.log(e);
-  }
-});
+  })
+);
 
 export default login;

@@ -9,7 +9,9 @@ interface CompareHashPasswordInterface {
   hash: string;
 }
 
-export const hashPassword = async ({ textPassword }: HashPasswordInterface) => {
+export const hashPasswordAsync = async ({
+  textPassword,
+}: HashPasswordInterface) => {
   const saltRounds = 10;
 
   const hashedPassword = await bcrypt.hash(textPassword, saltRounds);
@@ -17,7 +19,7 @@ export const hashPassword = async ({ textPassword }: HashPasswordInterface) => {
   return hashedPassword;
 };
 
-export const compareHashedPassword = async ({
+export const compareHashedPasswordAsync = async ({
   textPassword,
   hash,
 }: CompareHashPasswordInterface) => {

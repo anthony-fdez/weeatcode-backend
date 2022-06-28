@@ -9,7 +9,8 @@ import usersRouter from "./api/users/users";
 import postsRouter from "./api/posts/posts";
 import error from "./middleware/error";
 
-const app = express();
+// Export the app so we can use it it the tests
+export const app = express();
 const PORT = config.get("PORT");
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
