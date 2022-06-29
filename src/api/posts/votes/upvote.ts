@@ -37,6 +37,7 @@ const postUpvote = router.post(
         where: {
           postId: postId,
           userId: req.user?.userId,
+          userName: req.user?.userName,
         },
       })) as unknown as PostVoteAttributesInterface;
 
@@ -47,6 +48,7 @@ const postUpvote = router.post(
 
         await PostVote.create({
           userId: req.user?.userId,
+          userName: req.user?.userName,
           postId,
           upvote: true,
           downvote: false,
