@@ -54,7 +54,7 @@ const postDownvote = router.post(
         downvote: true,
       });
 
-      return res.send({ status: "ok", msg: "Post upvoted" });
+      return res.send({ status: "ok", msg: "Post downvoted" });
     } else if (postVoteRecord.upvote) {
       // remove the upvote
 
@@ -71,7 +71,7 @@ const postDownvote = router.post(
         }
       );
 
-      return res.send({ status: "ok", msg: "Post upvote removed" });
+      return res.send({ status: "ok", msg: "Post downvote removed" });
     } else {
       // add the upvote
 
@@ -88,7 +88,7 @@ const postDownvote = router.post(
         }
       );
 
-      return res.send({ status: "ok", msg: "Post upvoted" });
+      return res.send({ status: "ok", msg: "Post downvoted" });
     }
   })
 );
