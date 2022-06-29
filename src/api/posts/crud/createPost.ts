@@ -9,7 +9,7 @@ const createPost = router.post(
   Auth,
   async (req: IUserRequest, res: Response) => {
     try {
-      const { title, body } = req.body;
+      const { title, body, createdByTest } = req.body;
 
       if (!title || !body) {
         return res.status(400).send({
@@ -28,6 +28,7 @@ const createPost = router.post(
           body,
           authorId: req.user?.userId,
           authorName: req.user?.userName,
+          createdByTest: createdByTest || false,
         });
       } else {
         throw new Error("User credentials undefined");
