@@ -76,7 +76,11 @@ Post.init(
   }
 );
 
-Post.hasMany(PostVote, { foreignKey: "postId", as: "votes" });
+Post.hasMany(PostVote, {
+  foreignKey: "postId",
+  as: "votes",
+  onDelete: "cascade",
+});
 PostVote.belongsTo(Post, { foreignKey: "id" });
 
 export default Post;

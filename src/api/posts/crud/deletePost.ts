@@ -1,6 +1,7 @@
 import { Auth, IUserRequest } from "./../../../middleware/Auth";
 import express, { Router, Response } from "express";
 import Post from "../../../models/posts/Post";
+import PostVote from "../../../models/posts/PostVote";
 
 const router: Router = express.Router();
 
@@ -20,14 +21,17 @@ const deletePost = router.post(
         });
       }
 
+      await PostVote.destroy({
+        where: {
+          postId,
+        },
+      });
+
       const deletedPost = await Post.destroy({
         where: {
           id: postId,
         },
       });
-
-      // remove votes from db
-      // remove comments from db
 
       if (!deletedPost) {
         return res.status(500).send({
