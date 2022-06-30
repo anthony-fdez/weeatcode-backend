@@ -10,7 +10,7 @@ const router: Router = express.Router();
 const signup = router.post(
   "/signup",
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, createdByTest } = req.body;
 
     if (!email || !name || !password)
       return next(
@@ -29,6 +29,7 @@ const signup = router.post(
       name,
       email,
       password,
+      createdByTest: createdByTest || false,
     })) as unknown as UserAttributesInterface;
 
     const token = await generateToken({ email: user.email, userId: user.id });

@@ -1,27 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { urlencoded } from "express";
 import config from "config";
-
 import { logger } from "../config/logger";
 import db from "./db/db";
-// Routers
-import usersRouter from "./api/users/users";
-import postsRouter from "./api/posts/posts";
-import error from "./middleware/error";
+import app from "./app";
 
-// Export the app so we can use it it the tests
-const app = express();
 const PORT = config.get("PORT");
-app.use(urlencoded({ extended: true }));
-app.use(express.json());
-app.use(usersRouter);
-app.use(postsRouter);
-app.use(error);
 
 export const server = app.listen(PORT, async () => {
   try {
     await db.authenticate();
     await db.sync();
+
     console.log("Connected to db");
   } catch (error: any) {
     logger.log({

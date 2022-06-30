@@ -8,6 +8,7 @@ export interface PostAttributesInterface {
   body: string;
   authorId: number;
   authorName: string;
+  createdByTest?: boolean;
 
   // Optional values, not required to add when creating a post
   edited?: boolean;
@@ -62,6 +63,11 @@ Post.init(
     updatedAt: {
       type: DataTypes.DATE,
     },
+    createdByTest: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     tableName: "Posts",
@@ -70,6 +76,11 @@ Post.init(
   }
 );
 
-Post.hasMany(PostVote, { foreignKey: "postId" });
+Post.hasMany(PostVote, {
+  foreignKey: "postId",
+  as: "votes",
+  onDelete: "cascade",
+});
+PostVote.belongsTo(Post, { foreignKey: "id" });
 
 export default Post;
