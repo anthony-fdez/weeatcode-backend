@@ -1,10 +1,10 @@
-import { server } from "../../index";
+import app from "../../app";
 import supertest from "supertest";
 // @ts-ignore This package does not support typescript
 import randomEmail from "random-email";
 
 jest.setTimeout(30000);
-const request = supertest(server);
+const request = supertest(app);
 
 describe("Posts Integration", () => {
   const email = randomEmail();
@@ -131,7 +131,7 @@ describe("Posts Integration", () => {
     });
   });
 
-  afterAll(() => {
-    server.close();
+  afterAll(async () => {
+    await new Promise((resolve: any) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
   });
 });
