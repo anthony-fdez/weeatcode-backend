@@ -6,6 +6,29 @@ import randomEmail from "random-email";
 jest.setTimeout(30000);
 const request = supertest(app);
 
+/// Fidel
+
+// I need your help to figure out this error
+
+// Jest has detected the following 5 open handles potentially keeping Jest from exiting:
+
+//   ●  bound-anonymous-fn
+
+//       40 |     test("Should create a new post", async () => {
+//       41 |       const res = await request
+//     > 42 |         .post("/posts/create_post")
+//          |          ^
+//       43 |         .set({
+//       44 |           Authorization: loginToken,
+//       45 |         })
+
+// This is what i get when i run the tests, i think it does this cause i'm not closing the server
+// i dont know how to close it tho, since i'm not useing the server variable but the app instance instead
+// I had to separate the index.ts file into server.ts and app.ts, this is so we are able to only use the express app
+// without having to create a server. I think we need to create the server in each tests file, instead of passing the app
+
+// this shit has me fucked up man lmao
+
 describe("Posts Integration", () => {
   const email = randomEmail();
   const password = "12345678";
