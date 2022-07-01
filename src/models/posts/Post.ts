@@ -1,3 +1,4 @@
+import { PostVoteAttributesInterface } from "./PostVote";
 /* eslint-disable class-methods-use-this */
 import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
@@ -9,6 +10,7 @@ export interface PostAttributesInterface {
   authorId: number;
   authorName: string;
   createdByTest?: boolean;
+  votes?: PostVoteAttributesInterface[];
 
   // Optional values, not required to add when creating a post
   edited?: boolean;

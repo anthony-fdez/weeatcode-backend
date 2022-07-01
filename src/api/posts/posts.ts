@@ -4,6 +4,7 @@ import createPost from "./crud/createPost";
 import deletePost from "./crud/deletePost";
 import editPost from "./crud/editPost";
 import getAllPosts from "./crud/getAllPosts";
+import getById from "./crud/getById";
 import searchPosts from "./search/searchPosts";
 import postDownvote from "./votes/downvote";
 import postUpvote from "./votes/upvote";
@@ -16,6 +17,7 @@ postsRouter.use("/posts", deletePost);
 postsRouter.use("/posts", editPost);
 postsRouter.use("/posts", searchPosts);
 postsRouter.use("/posts", getAllPosts);
+postsRouter.use("/posts", getById);
 
 // Post votes
 postsRouter.use("/posts", postUpvote);
