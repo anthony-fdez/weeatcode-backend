@@ -11,7 +11,6 @@ const router: Router = express.Router();
 
 const getAllPosts = router.get(
   "/get_all",
-  Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const posts: PostAttributesInterface[] = (await Post.findAll({
       // @ts-ignore
@@ -40,6 +39,8 @@ const getAllPosts = router.get(
 
       parsedPosts.push({
         voteScore: upvotes - downvotes,
+        upvotes,
+        downvotes,
         upvoted: post.votes.some(
           (vote: any) =>
             vote.userId === req.user?.userId && vote.upvote === true

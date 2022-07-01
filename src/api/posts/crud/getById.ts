@@ -11,7 +11,6 @@ const router: Router = express.Router();
 
 const getById = router.post(
   "/get_by_id",
-  Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const { postId } = req.body;
 
@@ -68,15 +67,13 @@ const getById = router.post(
 
     res.json({
       status: "ok",
+      upvotes,
+      downvotes,
+      voteScore: upvotes - downvotes,
+      upvoted,
+      downvoted,
       post,
-      votes: {
-        upvotes,
-        downvotes,
-        voteScore: upvotes - downvotes,
-        upvoted,
-        downvoted,
-        allVotes: post.votes,
-      },
+      votes: post.votes,
     });
   })
 );
