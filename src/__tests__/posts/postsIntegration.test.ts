@@ -134,6 +134,22 @@ describe("Posts Integration", () => {
       expect(statusCode).toBe(200);
       expect(body.status).toBe("ok");
     });
+
+    test("Shold get post by id", async () => {
+      const res = await request
+        .post("/posts/get_by_id")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
   });
 
   describe("Delete post", () => {
