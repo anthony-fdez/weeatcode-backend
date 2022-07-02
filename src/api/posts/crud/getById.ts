@@ -17,7 +17,7 @@ const getById = router.post(
     if (!postId) {
       return res.status(400).json({
         status: "err",
-        msg: "Parameter 'postId' is required",
+        message: "Parameter 'postId' is required",
       });
     }
 
@@ -36,7 +36,7 @@ const getById = router.post(
     if (!post) {
       res.status(400).json({
         status: "err",
-        msg: `Post with id '${postId}' not found`,
+        message: `Post with id '${postId}' not found`,
       });
     }
 

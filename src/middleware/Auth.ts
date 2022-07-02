@@ -28,7 +28,7 @@ export const Auth = async (
     });
 
     if (!user)
-      return res.status(401).send({ status: "err", msg: "Please log in" });
+      return res.status(401).send({ status: "err", message: "Please log in" });
 
     req.user = {
       email: user["User.email"],

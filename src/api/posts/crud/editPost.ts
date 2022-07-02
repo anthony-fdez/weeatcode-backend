@@ -14,7 +14,7 @@ const editPost = router.post(
       if (!postId || !body || !title) {
         return res.status(400).send({
           status: "err",
-          msg: "Field 'postId', 'title' and 'body' are required",
+          message: "Field 'postId', 'title' and 'body' are required",
         });
       }
 
@@ -34,13 +34,13 @@ const editPost = router.post(
       if (!postToUpdate) {
         return res.status(500).send({
           status: "err",
-          msg: "Could not edit post, post not found",
+          message: "Could not edit post, post not found",
         });
       }
 
       res.send({
         status: "ok",
-        msg: "Post edited successfully",
+        message: "Post edited successfully",
         post: {
           title,
           body,

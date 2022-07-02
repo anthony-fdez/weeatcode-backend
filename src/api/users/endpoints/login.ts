@@ -42,7 +42,7 @@ const login = router.post(
 
     res.send({
       status: "ok",
-      msg: "Logged in successfully",
+      message: "Logged in successfully",
       user: {
         userId: user.id,
       },

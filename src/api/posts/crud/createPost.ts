@@ -14,7 +14,7 @@ const createPost = router.post(
       if (!title || !body) {
         return res.status(400).send({
           status: "err",
-          msg: "'title' and 'body' are required",
+          message: "'title' and 'body' are required",
         });
       }
 
@@ -38,7 +38,11 @@ const createPost = router.post(
         throw new Error("Could not create post");
       }
 
-      res.send({ status: "ok", msg: "Post created", post });
+      res.send({
+        status: "ok",
+        message: "Post created",
+        post,
+      });
     } catch (err) {
       res.status(500).send({ err, status: "err" });
 

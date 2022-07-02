@@ -16,7 +16,7 @@ const postDownvote = router.post(
     if (!postId) {
       return res.status(400).send({
         status: "err",
-        msg: "Field 'postId' is required",
+        message: "Field 'postId' is required",
       });
     }
 
@@ -29,7 +29,7 @@ const postDownvote = router.post(
     if (!postExists) {
       return res.status(400).send({
         status: "err",
-        msg: `Post with id '${postId}' does not exist`,
+        message: `Post with id '${postId}' does not exist`,
       });
     }
 
@@ -54,7 +54,7 @@ const postDownvote = router.post(
         downvote: true,
       });
 
-      return res.send({ status: "ok", msg: "Post downvoted" });
+      return res.send({ status: "ok", message: "Post downvoted" });
     } else if (postVoteRecord.upvote) {
       // remove the upvote
 
@@ -71,7 +71,7 @@ const postDownvote = router.post(
         }
       );
 
-      return res.send({ status: "ok", msg: "Post downvote removed" });
+      return res.send({ status: "ok", message: "Post downvote removed" });
     } else {
       // add the upvote
 
@@ -88,7 +88,7 @@ const postDownvote = router.post(
         }
       );
 
-      return res.send({ status: "ok", msg: "Post downvoted" });
+      return res.send({ status: "ok", message: "Post downvoted" });
     }
   })
 );
