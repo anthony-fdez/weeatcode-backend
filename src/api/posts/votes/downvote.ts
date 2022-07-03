@@ -54,7 +54,7 @@ const postDownvote = router.post(
       });
 
       return res.send({ status: "ok", message: "Post downvoted" });
-    } else if (postVoteRecord.upvote) {
+    } else if (postVoteRecord.downvote) {
       // remove the upvote
 
       await PostVote.update(
