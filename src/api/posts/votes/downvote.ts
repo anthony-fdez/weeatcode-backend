@@ -37,7 +37,6 @@ const postDownvote = router.post(
       where: {
         postId: postId,
         userId: req.user?.userId,
-        userName: req.user?.userName,
       },
     })) as unknown as PostVoteAttributesInterface;
 
@@ -65,7 +64,7 @@ const postDownvote = router.post(
         },
         {
           where: {
-            id: postId,
+            postId: postId,
             userId: req.user?.userId,
           },
         }
@@ -82,7 +81,7 @@ const postDownvote = router.post(
         },
         {
           where: {
-            id: postId,
+            postId: postId,
             userId: req.user?.userId,
           },
         }

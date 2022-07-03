@@ -39,6 +39,7 @@ const signup = router.post(
       message: "User Created",
       user: {
         userId: user.id,
+        name: user.name,
       },
       token,
     });

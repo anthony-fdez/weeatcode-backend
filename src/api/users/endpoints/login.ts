@@ -25,7 +25,7 @@ const login = router.post(
       where: {
         email,
       },
-      attributes: ["password", "id"],
+      attributes: ["password", "id", "name"],
     })) as unknown as UserAttributesInterface;
 
     if (!user) return next(new ErrorHandler("User not found", 400));
@@ -45,6 +45,7 @@ const login = router.post(
       message: "Logged in successfully",
       user: {
         userId: user.id,
+        name: user.name,
       },
       token,
     });

@@ -37,9 +37,10 @@ const postUpvote = router.post(
       where: {
         postId: postId,
         userId: req.user?.userId,
-        userName: req.user?.userName,
       },
     })) as unknown as PostVoteAttributesInterface;
+
+    console.log(postVoteRecord);
 
     if (!postVoteRecord) {
       // If it doesnt exist create one
@@ -65,7 +66,7 @@ const postUpvote = router.post(
         },
         {
           where: {
-            id: postId,
+            postId: postId,
             userId: req.user?.userId,
           },
         }
@@ -75,6 +76,8 @@ const postUpvote = router.post(
     } else {
       // add the upvote
 
+      console.log("here");
+
       await PostVote.update(
         {
           upvote: true,
@@ -82,7 +85,7 @@ const postUpvote = router.post(
         },
         {
           where: {
-            id: postId,
+            postId: postId,
             userId: req.user?.userId,
           },
         }
