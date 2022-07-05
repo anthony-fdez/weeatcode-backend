@@ -45,9 +45,6 @@ const getUserData = router.post(
       ],
     })) as unknown as UserAttributesInterface;
 
-    // @ts-ignore
-    console.log(user.postVotes);
-
     const posts: any = [];
 
     // @ts-ignore
@@ -67,6 +64,14 @@ const getUserData = router.post(
         upvotes,
         downvotes,
         voteScore: upvotes - downvotes,
+        upvoted: post.votes.some(
+          (vote: any) =>
+            vote.userId === req.user?.userId && vote.upvote === true
+        ),
+        downvoted: post.votes.some(
+          (vote: any) =>
+            vote.userId === req.user?.userId && vote.downvote === true
+        ),
         post,
       });
     });
