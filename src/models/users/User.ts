@@ -80,9 +80,9 @@ User.init(
   }
 );
 
-User.hasMany(Token, { foreignKey: "userId" });
-User.hasMany(Post, { foreignKey: "authorId" });
-User.hasMany(PostVote, { foreignKey: "userId" });
+User.hasMany(Token, { foreignKey: "userId", as: "tokens" });
+User.hasMany(Post, { foreignKey: "authorId", as: "posts" });
+User.hasMany(PostVote, { foreignKey: "userId", as: "postVotes" });
 
 Token.belongsTo(User, { foreignKey: "userId" });
 

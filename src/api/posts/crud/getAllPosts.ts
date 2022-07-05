@@ -1,3 +1,4 @@
+import { AuthOptional } from "./../../../middleware/AuthOptional";
 import { PostAttributesInterface } from "./../../../models/posts/Post";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response, raw } from "express";
@@ -11,6 +12,7 @@ const router: Router = express.Router();
 
 const getAllPosts = router.get(
   "/get_all",
+  AuthOptional,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const posts: PostAttributesInterface[] = (await Post.findAll({
       // @ts-ignore

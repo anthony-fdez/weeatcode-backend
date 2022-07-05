@@ -53,8 +53,6 @@ const getById = router.post(
         if (vote.upvote) {
           upvotes++;
 
-          console.log(req.user);
-
           if (vote.userId === req.user?.userId) {
             upvoted = true;
           }
