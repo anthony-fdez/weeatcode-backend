@@ -63,18 +63,19 @@ const getUserData = router.post(
         }
       });
 
-      posts.push({ upvotes, downvotes, post });
+      posts.push({
+        upvotes,
+        downvotes,
+        voteScore: upvotes - downvotes,
+        post,
+      });
     });
-
-    const formattedData: any = {
-      data: {},
-    };
 
     res.send({
       status: "ok",
       data: {
+        totalPosts: posts.length,
         user,
-        // @ts-ignore
         posts: posts,
       },
     });
