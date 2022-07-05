@@ -1,3 +1,4 @@
+import { AuthOptional } from "./../../../middleware/AuthOptional";
 import { PostVoteAttributesInterface } from "./../../../models/posts/PostVote";
 import { PostAttributesInterface } from "./../../../models/posts/Post";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
@@ -11,6 +12,7 @@ const router: Router = express.Router();
 
 const getById = router.post(
   "/get_by_id",
+  AuthOptional,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const { postId } = req.body;
 

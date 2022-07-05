@@ -33,7 +33,7 @@ export const AuthOptional = async (
 
   // new
   // No token found but they can still access the data
-  if (!token) next();
+  if (!token) return next();
 
   try {
     const user: any = await Token.findOne({
@@ -42,8 +42,7 @@ export const AuthOptional = async (
       raw: true,
     });
 
-    if (!user)
-      return res.status(401).send({ status: "err", message: "Please log in" });
+    if (!user) return next();
 
     req.user = {
       email: user["User.email"],
