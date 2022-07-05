@@ -40,7 +40,6 @@ const getById = router.post(
       });
     }
 
-    let voteScore = 0;
     let upvotes = 0;
     let downvotes = 0;
 
@@ -51,6 +50,8 @@ const getById = router.post(
       post.votes.forEach((vote: PostVoteAttributesInterface, index) => {
         if (vote.upvote) {
           upvotes++;
+
+          console.log(req.user);
 
           if (vote.userId === req.user?.userId) {
             upvoted = true;

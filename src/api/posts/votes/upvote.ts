@@ -40,8 +40,6 @@ const postUpvote = router.post(
       },
     })) as unknown as PostVoteAttributesInterface;
 
-    console.log(postVoteRecord);
-
     if (!postVoteRecord) {
       // If it doesnt exist create one
 
@@ -75,8 +73,6 @@ const postUpvote = router.post(
       return res.send({ status: "ok", message: "Post upvote removed" });
     } else {
       // add the upvote
-
-      console.log("here");
 
       await PostVote.update(
         {
