@@ -6,7 +6,7 @@ import express, { Router, Request, Response } from "express";
 import Token from "../../../models/users/Token";
 import catchAsync from "../../../middleware/catchAsync";
 import User from "../../../models/users/User";
-import Post from "../../../models/posts/Post";
+import Post, { PostAttributesInterface } from "../../../models/posts/Post";
 import PostVote from "../../../models/posts/PostVote";
 
 const router: Router = express.Router();
@@ -48,33 +48,42 @@ const getUserData = router.post(
     const posts: any = [];
 
     // @ts-ignore
-    user.posts.forEach((post: PostAttributesInterface) => {
-      let upvotes = 0;
-      let downvotes = 0;
 
-      post.votes.forEach((vote: PostVoteAttributesInterface) => {
-        if (vote.upvote) {
-          upvotes = upvotes + 1;
-        } else if (vote.downvote) {
-          downvotes = downvotes + 1;
+    console.log(user);
+
+    if (user.posts) {
+      user.posts.forEach((post: PostAttributesInterface) => {
+        if (!post.id) return;
+
+        let upvotes = 0;
+        let downvotes = 0;
+
+        if (post.votes) {
+          post.votes.forEach((vote: PostVoteAttributesInterface) => {
+            if (vote.upvote) {
+              upvotes = upvotes + 1;
+            } else if (vote.downvote) {
+              downvotes = downvotes + 1;
+            }
+          });
+
+          posts.push({
+            upvotes,
+            downvotes,
+            voteScore: upvotes - downvotes,
+            upvoted: post.votes.some(
+              (vote: any) =>
+                vote.userId === req.user?.userId && vote.upvote === true
+            ),
+            downvoted: post.votes.some(
+              (vote: any) =>
+                vote.userId === req.user?.userId && vote.downvote === true
+            ),
+            post,
+          });
         }
       });
-
-      posts.push({
-        upvotes,
-        downvotes,
-        voteScore: upvotes - downvotes,
-        upvoted: post.votes.some(
-          (vote: any) =>
-            vote.userId === req.user?.userId && vote.upvote === true
-        ),
-        downvoted: post.votes.some(
-          (vote: any) =>
-            vote.userId === req.user?.userId && vote.downvote === true
-        ),
-        post,
-      });
-    });
+    }
 
     res.send({
       status: "ok",
