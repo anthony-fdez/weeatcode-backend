@@ -13,7 +13,7 @@ const logout = router.post(
 
     res.send({
       status: "ok",
-      msg: "Logged out successfully",
+      message: "Logged out successfully",
     });
   })
 );

@@ -36,9 +36,10 @@ const signup = router.post(
 
     res.send({
       status: "ok",
-      msg: "User Created",
+      message: "User Created",
       user: {
         userId: user.id,
+        name: user.name,
       },
       token,
     });

@@ -1,3 +1,6 @@
+import { AuthOptional } from "./../../../middleware/AuthOptional";
+import { PostVoteAttributesInterface } from "./../../../models/posts/PostVote";
+import { PostAttributesInterface } from "./../../../models/posts/Post";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response, raw } from "express";
 import catchAsync from "../../../middleware/catchAsync";
@@ -7,12 +10,73 @@ import db from "../../../db/db";
 
 const router: Router = express.Router();
 
-const getAllPosts = router.get(
-  "/get_all",
-  Auth,
+const getById = router.post(
+  "/get_by_id",
+  AuthOptional,
   catchAsync(async (req: IUserRequest, res: Response) => {
-    res.json("ok");
+    const { postId } = req.body;
+
+    if (!postId) {
+      return res.status(400).json({
+        status: "err",
+        message: "Parameter 'postId' is required",
+      });
+    }
+
+    const post: PostAttributesInterface = (await Post.findOne({
+      where: {
+        id: postId,
+      },
+      include: [
+        {
+          model: PostVote,
+          as: "votes",
+        },
+      ],
+    })) as unknown as PostAttributesInterface;
+
+    if (!post) {
+      res.status(400).json({
+        status: "err",
+        message: `Post with id '${postId}' not found`,
+      });
+    }
+
+    let upvotes = 0;
+    let downvotes = 0;
+
+    let upvoted = false;
+    let downvoted = false;
+
+    if (post.votes) {
+      post.votes.forEach((vote: PostVoteAttributesInterface, index) => {
+        if (vote.upvote) {
+          upvotes++;
+
+          if (vote.userId === req.user?.userId) {
+            upvoted = true;
+          }
+        } else if (vote.downvote) {
+          downvotes++;
+
+          if (vote.userId === req.user?.userId) {
+            downvoted = true;
+          }
+        }
+      });
+    }
+
+    res.json({
+      status: "ok",
+      upvotes,
+      downvotes,
+      voteScore: upvotes - downvotes,
+      upvoted,
+      downvoted,
+      post,
+      votes: post.votes,
+    });
   })
 );
 
-export default getAllPosts;
+export default getById;

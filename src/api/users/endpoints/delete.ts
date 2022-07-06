@@ -30,7 +30,7 @@ const deleteUser = router.post(
 
     res.send({
       status: "ok",
-      msg: "User deleted successfully",
+      message: "User deleted successfully",
     });
   })
 );

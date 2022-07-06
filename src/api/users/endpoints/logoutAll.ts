@@ -17,7 +17,7 @@ const logoutAll = router.post(
 
     res.send({
       status: "ok",
-      msg: "Logged out all sessions",
+      message: "Logged out all sessions",
     });
   })
 );

@@ -17,7 +17,7 @@ const deletePost = router.post(
       if (!postId) {
         return res.status(400).send({
           status: "err",
-          msg: "Field 'postId' is required",
+          message: "Field 'postId' is required",
         });
       }
 
@@ -36,13 +36,13 @@ const deletePost = router.post(
       if (!deletedPost) {
         return res.status(500).send({
           status: "err",
-          msg: "Could not delete post",
+          message: "Could not delete post",
         });
       }
 
       res.send({
         status: "ok",
-        msg: "Post deleted successfully",
+        message: "Post deleted successfully",
       });
     } catch (err) {
       res.status(500).send({ err, status: "err" });
