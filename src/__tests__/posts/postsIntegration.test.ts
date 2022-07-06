@@ -152,7 +152,7 @@ describe("Posts Integration", () => {
     });
   });
 
-  describe("Delete post", () => {
+  describe("Delete created records", () => {
     test("Should delete the post", async () => {
       const res = await request
         .post("/posts/delete")
@@ -162,6 +162,17 @@ describe("Posts Integration", () => {
         .send({
           postId: postId,
         });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("It should delete the user", async () => {
+      const res = await request
+        .post("/users/delete")
+        .set({ Authorization: loginToken });
 
       const { statusCode, body } = res;
 
