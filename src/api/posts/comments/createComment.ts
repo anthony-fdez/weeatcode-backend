@@ -8,7 +8,7 @@ import Comment from "../../../models/posts/Comment";
 const router: Router = express.Router();
 
 const createComment = router.post(
-  "/create_comment",
+  "/create",
   Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const {

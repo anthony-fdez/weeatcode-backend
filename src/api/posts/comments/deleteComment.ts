@@ -8,7 +8,7 @@ import Comment from "../../../models/posts/Comment";
 const router: Router = express.Router();
 
 const deleteComment = router.post(
-  "/delete_comment",
+  "/delete",
   Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const { commentId } = req.body;
