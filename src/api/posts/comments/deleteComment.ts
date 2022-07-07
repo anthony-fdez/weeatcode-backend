@@ -23,20 +23,39 @@ const deleteComment = router.post(
       });
     }
 
-    // We are not actually going to delete the records, cause we dont want do delete replies if
-    // someone deletes their comment, so we only change the comment to [deleted]
-
-    (await Comment.update(
-      {
-        comment: "[deleted]",
-        deleted: true,
+    const comment: CommentAttributesInterface = (await Comment.findOne({
+      where: {
+        id: commentId,
       },
-      {
-        where: {
-          id: commentId,
+    })) as unknown as CommentAttributesInterface;
+
+    if (!comment)
+      return res.status(400).send({
+        status: "err",
+        message: "Comment does not exist",
+      });
+
+    if (comment.userId === req.user.userId) {
+      // We are not actually going to delete the records, cause we dont want do delete replies if
+      // someone deletes their comment, so we only change the comment to [deleted]
+
+      (await Comment.update(
+        {
+          comment: "[deleted]",
+          deleted: true,
         },
-      }
-    )) as unknown as CommentAttributesInterface;
+        {
+          where: {
+            id: commentId,
+          },
+        }
+      )) as unknown as CommentAttributesInterface;
+    } else {
+      return res.status(401).send({
+        status: "err",
+        message: "Unauthorized to delete this comment",
+      });
+    }
 
     res.json({
       status: "ok",
