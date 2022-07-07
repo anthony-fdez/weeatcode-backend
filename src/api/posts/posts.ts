@@ -1,5 +1,6 @@
 import express from "express";
 import { Router } from "express";
+import createComment from "./comments/createComment";
 import createPost from "./crud/createPost";
 import deletePost from "./crud/deletePost";
 import editPost from "./crud/editPost";
@@ -22,5 +23,8 @@ postsRouter.use("/posts", getById);
 // Post votes
 postsRouter.use("/posts", postUpvote);
 postsRouter.use("/posts", postDownvote);
+
+// Post comments
+postsRouter.use("/posts/comment/", createComment);
 
 export default postsRouter;
