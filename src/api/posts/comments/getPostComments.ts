@@ -1,3 +1,4 @@
+import { AuthOptional } from "./../../../middleware/AuthOptional";
 import { CommentVoteAttributesInterface } from "./../../../models/posts/CommentVote";
 import { CommentAttributesInterface } from "./../../../models/posts/Comment";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
@@ -11,7 +12,7 @@ const router: Router = express.Router();
 
 const getComments = router.post(
   "/get_comments",
-  Auth,
+  AuthOptional,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const { postId } = req.body;
 
