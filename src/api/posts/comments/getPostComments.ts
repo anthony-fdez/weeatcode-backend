@@ -31,6 +31,7 @@ const getComments = router.post(
           as: "commentVotes",
         },
       ],
+      order: [["createdAt", "ASC"]],
     })) as unknown as CommentAttributesInterface[];
 
     const formattedComments: any = [];
@@ -51,7 +52,7 @@ const getComments = router.post(
             upvoted = true;
           }
         } else if (vote.downvote) {
-          downvotes = downvotes - 1;
+          downvotes = downvotes + 1;
 
           if (vote.userId === req.user?.userId) {
             downvoted = true;
