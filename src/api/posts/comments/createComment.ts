@@ -11,8 +11,14 @@ const createComment = router.post(
   "/create_comment",
   Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
-    const { postId, replyCommentId, replyUserName, createdByTest, comment } =
-      req.body;
+    const {
+      postId,
+      replyCommentId,
+      replyUserName,
+      replyUserId,
+      createdByTest,
+      comment,
+    } = req.body;
 
     if (!req.user?.userId || !req.user?.userName)
       return res.status(400).send({ status: "err", message: "Please log in" });
@@ -26,7 +32,7 @@ const createComment = router.post(
 
     let newComment: CommentAttributesInterface;
 
-    if (replyCommentId && replyUserName) {
+    if (replyCommentId && replyUserName && replyUserId) {
       newComment = (await Comment.create({
         userId: req.user?.userId,
         userName: req.user?.userName,
@@ -34,6 +40,8 @@ const createComment = router.post(
         comment,
         replyCommentId,
         replyUserName,
+        createdByTest: createdByTest || false,
+        replyUserId,
       })) as unknown as CommentAttributesInterface;
     } else {
       newComment = (await Comment.create({
@@ -41,6 +49,7 @@ const createComment = router.post(
         userName: req.user?.userName,
         postId: postId,
         comment,
+        createdByTest: createdByTest || false,
       })) as unknown as CommentAttributesInterface;
     }
 
