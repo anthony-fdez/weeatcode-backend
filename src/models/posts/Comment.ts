@@ -3,6 +3,7 @@
 
 import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
+import CommentVote from "./CommentVote";
 import Post from "./Post";
 
 export interface CommentAttributesInterface {
@@ -98,5 +99,7 @@ Comment.init(
     sequelize: db,
   }
 );
+
+CommentVote.belongsTo(Comment, { foreignKey: "commentId" });
 
 export default Comment;
