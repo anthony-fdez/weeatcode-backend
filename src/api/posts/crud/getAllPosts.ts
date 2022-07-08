@@ -4,7 +4,9 @@ import { Auth, IUserRequest } from "../../../middleware/Auth";
 import express, { Router, Response, raw } from "express";
 import catchAsync from "../../../middleware/catchAsync";
 import Post from "../../../models/posts/Post";
-import PostVote from "../../../models/posts/PostVote";
+import PostVote, {
+  PostVoteAttributesInterface,
+} from "../../../models/posts/PostVote";
 import db from "../../../db/db";
 import { parse } from "path";
 
@@ -28,29 +30,34 @@ const getAllPosts = router.get(
     const parsedPosts: any = [];
 
     await posts.forEach((post: any, index) => {
-      let upvotes = 0;
-      let downvotes = 0;
+      let upVotes = 0;
+      let upVoted = false;
 
-      post.votes.forEach((vote: any) => {
+      let downVotes = 0;
+      let downVoted = false;
+
+      post.votes.forEach((vote: PostVoteAttributesInterface) => {
         if (vote.upvote) {
-          upvotes++;
+          upVotes++;
+
+          if (vote.userId === req.user?.userId) {
+            upVoted = true;
+          }
         } else if (vote.downvote) {
-          downvotes++;
+          downVotes++;
+
+          if (vote.userId === req.user?.userId) {
+            downVoted = true;
+          }
         }
       });
 
       parsedPosts.push({
-        voteScore: upvotes - downvotes,
-        upvotes,
-        downvotes,
-        upvoted: post.votes.some(
-          (vote: any) =>
-            vote.userId === req.user?.userId && vote.upvote === true
-        ),
-        downvoted: post.votes.some(
-          (vote: any) =>
-            vote.userId === req.user?.userId && vote.downvote === true
-        ),
+        voteScore: upVotes - downVotes,
+        upVotes,
+        downVotes,
+        upVoted,
+        downVoted,
         post: post.dataValues,
       });
     });

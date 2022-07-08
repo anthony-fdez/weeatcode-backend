@@ -40,33 +40,33 @@ const getComments = router.post(
     comments.forEach((comment: CommentAttributesInterface, index: number) => {
       if (!comment.commentVotes) return;
 
-      let upvotes = 0;
-      let downvotes = 0;
-      let upvoted = false;
-      let downvoted = false;
+      let upVotes = 0;
+      let downVotes = 0;
+      let upVoted = false;
+      let downVoted = false;
 
       comment.commentVotes.forEach((vote: CommentVoteAttributesInterface) => {
         if (vote.upvote) {
-          upvotes = upvotes + 1;
+          upVotes = upVotes + 1;
 
           if (vote.userId === req.user?.userId) {
-            upvoted = true;
+            upVoted = true;
           }
         } else if (vote.downvote) {
-          downvotes = downvotes + 1;
+          downVotes = downVotes + 1;
 
           if (vote.userId === req.user?.userId) {
-            downvoted = true;
+            downVoted = true;
           }
         }
       });
 
       formattedComments.push({
-        upvotes,
-        downvotes,
-        downvoted,
-        upvoted,
-        voteScore: upvotes - downvotes,
+        upVotes,
+        downVotes,
+        downVoted,
+        upVoted,
+        voteScore: upVotes - downVotes,
         comment,
       });
     });

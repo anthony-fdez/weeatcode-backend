@@ -36,7 +36,7 @@ const deleteComment = router.post(
       });
 
     if (comment.userId === req.user.userId) {
-      // We are not actually going to delete the records, cause we dont want do delete replies if
+      // We are not actually going to delete the records, cause we don't want do delete replies if
       // someone deletes their comment, so we only change the comment to [deleted]
 
       (await Comment.update(

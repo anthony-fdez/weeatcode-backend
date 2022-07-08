@@ -46,7 +46,7 @@ const commentUpvote = router.post(
     })) as unknown as CommentVoteAttributesInterface;
 
     if (!commentVoteRecord) {
-      // If it doesnt exist create one
+      // If it doesn't exist create one
 
       if (!req.user?.userId) throw new Error("User id undefined");
 
@@ -59,7 +59,7 @@ const commentUpvote = router.post(
         commentId,
       });
 
-      return res.send({ status: "ok", message: "Comment upvoted" });
+      return res.send({ status: "ok", message: "Comment upVoted" });
     } else if (commentVoteRecord.downvote) {
       // remove the upvote
 
@@ -95,7 +95,7 @@ const commentUpvote = router.post(
         }
       );
 
-      return res.send({ status: "ok", message: "Comment upvoted" });
+      return res.send({ status: "ok", message: "Comment upVoted" });
     }
   })
 );

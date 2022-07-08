@@ -42,25 +42,25 @@ const getById = router.post(
       });
     }
 
-    let upvotes = 0;
-    let downvotes = 0;
+    let upVotes = 0;
+    let downVotes = 0;
 
-    let upvoted = false;
-    let downvoted = false;
+    let upVoted = false;
+    let downVoted = false;
 
     if (post.votes) {
       post.votes.forEach((vote: PostVoteAttributesInterface, index) => {
         if (vote.upvote) {
-          upvotes++;
+          upVotes++;
 
           if (vote.userId === req.user?.userId) {
-            upvoted = true;
+            upVoted = true;
           }
         } else if (vote.downvote) {
-          downvotes++;
+          downVotes++;
 
           if (vote.userId === req.user?.userId) {
-            downvoted = true;
+            downVoted = true;
           }
         }
       });
@@ -68,11 +68,11 @@ const getById = router.post(
 
     res.json({
       status: "ok",
-      upvotes,
-      downvotes,
-      voteScore: upvotes - downvotes,
-      upvoted,
-      downvoted,
+      upVotes,
+      downVotes,
+      voteScore: upVotes - downVotes,
+      upVoted,
+      downVoted,
       post,
       votes: post.votes,
     });

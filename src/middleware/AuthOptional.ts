@@ -4,11 +4,11 @@ import { Response, NextFunction, Request } from "express";
 import Token from "../models/users/Token";
 import User from "../models/users/User";
 
-// This auth is for endpoints taht don't necesarilly need the user to be logged in
+// This auth is for endpoints that don't necessarily need the user to be logged in
 // but its nice to know that they are logged in and who they are
 
-// For example we want to know if a user has already upvoted a post, and let them know in the
-// frontend that they have upvoted it, but for what we need to know who they are.
+// For example we want to know if a user has already upVoted a post, and let them know in the
+// frontend that they have upVoted it, but for what we need to know who they are.
 
 export interface IUserRequest extends Request {
   user?: {

@@ -12,7 +12,7 @@ const deleteUser = router.post(
   "/delete",
   Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
-    // This doesnt return the deleted user, just if if was deleted or not
+    // This doesn't return the deleted user, just if if was deleted or not
     const deletedUser: UserAttributesInterface = (await User.destroy({
       where: {
         id: req.user?.userId,

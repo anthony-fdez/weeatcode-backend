@@ -22,7 +22,7 @@ const signup = router.post(
 
     // This will verify the email is valid
     if (!validator.isEmail(email)) {
-      return next(new ErrorHandler("Invalid 'email' recieved", 400));
+      return next(new ErrorHandler("Invalid 'email' received", 400));
     }
 
     const user: UserAttributesInterface = (await User.create({

@@ -23,11 +23,11 @@ const request = supertest(app);
 //       45 |         })
 
 // This is what i get when i run the tests, i think it does this cause i'm not closing the server
-// i dont know how to close it tho, since i'm not useing the server variable but the app instance instead
+// i don't know how to close it tho, since i'm not using the server variable but the app instance instead
 // I had to separate the index.ts file into server.ts and app.ts, this is so we are able to only use the express app
 // without having to create a server. I think we need to create the server in each tests file, instead of passing the app
 
-// this shit has me fucked up man lmao
+// this shit has me fucked up man lol
 
 describe("Posts Integration", () => {
   const email = randomEmail();
@@ -135,7 +135,7 @@ describe("Posts Integration", () => {
       expect(body.status).toBe("ok");
     });
 
-    test("Shold get post by id", async () => {
+    test("Should get post by id", async () => {
       const res = await request
         .post("/posts/get_by_id")
         .set({
