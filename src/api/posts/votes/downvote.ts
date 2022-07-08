@@ -41,7 +41,7 @@ const postDownvote = router.post(
     })) as unknown as PostVoteAttributesInterface;
 
     if (!postVoteRecord) {
-      // If it doesnt exist create one
+      // If it doesn't exist create one
 
       if (!req.user?.userId) throw new Error("User id undefined");
 
@@ -53,7 +53,7 @@ const postDownvote = router.post(
         downvote: true,
       });
 
-      return res.send({ status: "ok", message: "Post downvoted" });
+      return res.send({ status: "ok", message: "Post downVoted" });
     } else if (postVoteRecord.downvote) {
       // remove the upvote
 
@@ -87,7 +87,7 @@ const postDownvote = router.post(
         }
       );
 
-      return res.send({ status: "ok", message: "Post downvoted" });
+      return res.send({ status: "ok", message: "Post downVoted" });
     }
   })
 );

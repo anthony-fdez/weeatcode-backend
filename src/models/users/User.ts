@@ -6,6 +6,7 @@ import db from "../../db/db";
 import Token from "./Token";
 import Post, { PostAttributesInterface } from "../posts/Post";
 import PostVote from "../posts/PostVote";
+import Comment from "../posts/Comment";
 
 /**
  * with interfaces we can call them likes this
@@ -84,6 +85,7 @@ User.init(
 User.hasMany(Token, { foreignKey: "userId", as: "tokens" });
 User.hasMany(Post, { foreignKey: "authorId", as: "posts" });
 User.hasMany(PostVote, { foreignKey: "userId", as: "postVotes" });
+User.hasMany(Comment, { foreignKey: "userId", as: "comments" });
 
 Token.belongsTo(User, { foreignKey: "userId" });
 

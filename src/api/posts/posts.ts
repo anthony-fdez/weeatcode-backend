@@ -1,5 +1,11 @@
 import express from "express";
 import { Router } from "express";
+import createComment from "./comments/createComment";
+import deleteComment from "./comments/deleteComment";
+import editComment from "./comments/editComment";
+import getComments from "./comments/getPostComments";
+import commentDownvote from "./comments/votes/downvoteComment";
+import commentUpvote from "./comments/votes/upvoteComment";
 import createPost from "./crud/createPost";
 import deletePost from "./crud/deletePost";
 import editPost from "./crud/editPost";
@@ -22,5 +28,13 @@ postsRouter.use("/posts", getById);
 // Post votes
 postsRouter.use("/posts", postUpvote);
 postsRouter.use("/posts", postDownvote);
+
+// Post comments
+postsRouter.use("/posts/comment/", createComment);
+postsRouter.use("/posts/comment/", deleteComment);
+postsRouter.use("/posts/comment/", editComment);
+postsRouter.use("/posts/comment/", getComments);
+postsRouter.use("/posts/comment/", commentDownvote);
+postsRouter.use("/posts/comment/", commentUpvote);
 
 export default postsRouter;

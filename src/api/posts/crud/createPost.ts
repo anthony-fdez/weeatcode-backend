@@ -22,7 +22,7 @@ const createPost = router.post(
       let post;
 
       if (req.user?.userId && req.user.userName) {
-        // define the post variable in here so the userid and the name are never undefined
+        // define the post variable in here so the user id and the name are never undefined
         post = await Post.create({
           title,
           body,

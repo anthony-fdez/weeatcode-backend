@@ -3,6 +3,7 @@ import { PostVoteAttributesInterface } from "./PostVote";
 import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
 import PostVote from "./PostVote";
+import Comment from "./Comment";
 
 export interface PostAttributesInterface {
   title: string;
@@ -81,9 +82,15 @@ Post.init(
 Post.hasMany(PostVote, {
   foreignKey: "postId",
   as: "votes",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
+});
+Post.hasMany(Comment, {
+  foreignKey: "postId",
+  as: "comments",
+  onDelete: "CASCADE",
 });
 
-PostVote.belongsTo(Post, { foreignKey: "postId" });
+PostVote.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
+Comment.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
 
 export default Post;

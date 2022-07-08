@@ -47,38 +47,39 @@ const getUserData = router.post(
 
     const posts: any = [];
 
-    // @ts-ignore
-
-    console.log(user);
-
     if (user.posts) {
       user.posts.forEach((post: PostAttributesInterface) => {
         if (!post.id) return;
 
-        let upvotes = 0;
-        let downvotes = 0;
+        let upVotes = 0;
+        let upVoted = false;
+
+        let downVotes = 0;
+        let downVoted = false;
 
         if (post.votes) {
           post.votes.forEach((vote: PostVoteAttributesInterface) => {
             if (vote.upvote) {
-              upvotes = upvotes + 1;
+              upVotes++;
+
+              if (vote.userId === req.user?.userId) {
+                upVoted = true;
+              }
             } else if (vote.downvote) {
-              downvotes = downvotes + 1;
+              downVotes++;
+
+              if (vote.userId === req.user?.userId) {
+                downVoted = true;
+              }
             }
           });
 
           posts.push({
-            upvotes,
-            downvotes,
-            voteScore: upvotes - downvotes,
-            upvoted: post.votes.some(
-              (vote: any) =>
-                vote.userId === req.user?.userId && vote.upvote === true
-            ),
-            downvoted: post.votes.some(
-              (vote: any) =>
-                vote.userId === req.user?.userId && vote.downvote === true
-            ),
+            upVotes,
+            downVotes,
+            voteScore: upVotes - downVotes,
+            upVoted,
+            downVoted,
             post,
           });
         }
