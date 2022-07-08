@@ -65,7 +65,8 @@ const editComment = router.post(
     res.json({
       status: "ok",
       message: "Comment edited",
-      updatedComment,
+      // @ts-ignore
+      updatedComment: updatedComment[1][0],
     });
   })
 );

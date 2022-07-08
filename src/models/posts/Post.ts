@@ -82,15 +82,15 @@ Post.init(
 Post.hasMany(PostVote, {
   foreignKey: "postId",
   as: "votes",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
 });
 Post.hasMany(Comment, {
   foreignKey: "postId",
   as: "comments",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
 });
 
-PostVote.belongsTo(Post, { foreignKey: "postId" });
-Comment.belongsTo(Post, { foreignKey: "postId" });
+PostVote.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
+Comment.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
 
 export default Post;

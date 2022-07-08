@@ -101,7 +101,14 @@ Comment.init(
   }
 );
 
-Comment.hasMany(CommentVote, { foreignKey: "commentId", as: "commentVotes" });
-CommentVote.belongsTo(Comment, { foreignKey: "commentId" });
+Comment.hasMany(CommentVote, {
+  foreignKey: "commentId",
+  as: "commentVotes",
+  onDelete: "CASCADE",
+});
+CommentVote.belongsTo(Comment, {
+  foreignKey: "commentId",
+  onDelete: "CASCADE",
+});
 
 export default Comment;

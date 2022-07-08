@@ -36,8 +36,6 @@ const commentUpvote = router.post(
       });
     }
 
-    console.log(commentExists);
-
     const commentVoteRecord = (await CommentVote.findOne({
       where: {
         commentId,
@@ -47,7 +45,6 @@ const commentUpvote = router.post(
 
     if (!commentVoteRecord) {
       // If it doesn't exist create one
-
       if (!req.user?.userId) throw new Error("User id undefined");
 
       await CommentVote.create({
@@ -60,7 +57,7 @@ const commentUpvote = router.post(
       });
 
       return res.send({ status: "ok", message: "Comment upVoted" });
-    } else if (commentVoteRecord.downvote) {
+    } else if (commentVoteRecord.upvote) {
       // remove the upvote
 
       await CommentVote.update(
