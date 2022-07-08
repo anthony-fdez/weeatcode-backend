@@ -152,6 +152,140 @@ describe("Posts Integration", () => {
     });
   });
 
+  describe("Test voting", () => {
+    test("Should upvote a post", async () => {
+      const res = await request
+        .post("/posts/upvote")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("Post should be upVoted", async () => {
+      const res = await request
+        .post("/posts/get_by_id")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+      expect(body.upVoted).toBe(true);
+    });
+
+    test("Should remove upvote", async () => {
+      const res = await request
+        .post("/posts/upvote")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("Post upvote should have been removed", async () => {
+      const res = await request
+        .post("/posts/get_by_id")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+      expect(body.upVoted).toBe(false);
+    });
+
+    test("Should downvote a post", async () => {
+      const res = await request
+        .post("/posts/downvote")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("Post should be downVoted", async () => {
+      const res = await request
+        .post("/posts/get_by_id")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+      expect(body.downVoted).toBe(true);
+    });
+
+    test("Should remove downvote", async () => {
+      const res = await request
+        .post("/posts/downvote")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("Post upvote should have been removed", async () => {
+      const res = await request
+        .post("/posts/get_by_id")
+        .set({
+          Authorization: loginToken,
+        })
+        .send({
+          postId: postId,
+        });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+      expect(body.downVoted).toBe(false);
+    });
+  });
+
   describe("Delete created records", () => {
     test("Should delete the post", async () => {
       const res = await request
