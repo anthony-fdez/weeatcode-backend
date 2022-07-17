@@ -30,7 +30,9 @@ View.init(
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      // User id will be null if they are not signed in,
+      // we still want to add a new view even if they aren't signed in
+      allowNull: true,
     },
     postId: {
       type: DataTypes.INTEGER,
