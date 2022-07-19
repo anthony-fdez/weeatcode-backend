@@ -6,7 +6,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV= jest --detectOpenHandles --updateSnapshot --verbose --forceExit",
     "build": "tsc",
-    "start": "ts-node-dev --respawn src/server.ts"
+    "dev-start": "ts-node-dev --respawn src/server.ts",
+    "start": "ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",

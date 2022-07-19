@@ -1,18 +1,24 @@
+import { ViewsAttributesInterface } from "./../../../models/posts/View";
 import { AuthOptional } from "./../../../middleware/AuthOptional";
 import express, { Response, Router } from "express";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
 import catchAsync from "../../../middleware/catchAsync";
+import View from "../../../models/posts/View";
 
 const router: Router = express.Router();
 
-const addView = router.post(
-  "/create",
+const addPostView = router.post(
+  "/add",
   AuthOptional,
   catchAsync(async (req: IUserRequest, res: Response) => {
     const { postId } = req.body;
 
-    if (!req.user?.userId || !req.user?.userName)
-      return res.status(400).send({ status: "err", message: "Please log in" });
+    console.log(postId);
+
+    const view: ViewsAttributesInterface = (await View.create({
+      postId: postId,
+      userId: req.user?.userId || null,
+    })) as unknown as ViewsAttributesInterface;
 
     res.json({
       status: "ok",
@@ -21,4 +27,4 @@ const addView = router.post(
   })
 );
 
-export default addView;
+export default addPostView;

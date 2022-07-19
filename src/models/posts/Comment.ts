@@ -4,7 +4,6 @@
 import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
 import CommentVote, { CommentVoteAttributesInterface } from "./CommentVote";
-import Post from "./Post";
 
 export interface CommentAttributesInterface {
   userId: number;
@@ -106,6 +105,7 @@ Comment.hasMany(CommentVote, {
   as: "commentVotes",
   onDelete: "CASCADE",
 });
+
 CommentVote.belongsTo(Comment, {
   foreignKey: "commentId",
   onDelete: "CASCADE",

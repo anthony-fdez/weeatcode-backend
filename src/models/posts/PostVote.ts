@@ -3,7 +3,6 @@
 
 import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
-import Post from "./Post";
 
 export interface PostVoteAttributesInterface {
   upvote?: boolean;

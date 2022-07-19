@@ -88,13 +88,13 @@ Post.hasMany(PostVote, {
 
 Post.hasMany(Comment, {
   foreignKey: "postId",
-  as: "views",
+  as: "comments",
   onDelete: "CASCADE",
 });
 
 Post.hasMany(View, {
   foreignKey: "postId",
-  as: "comments",
+  as: "views",
   onDelete: "CASCADE",
 });
 

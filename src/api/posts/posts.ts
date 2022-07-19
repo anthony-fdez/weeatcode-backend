@@ -12,6 +12,7 @@ import editPost from "./crud/editPost";
 import getAllPosts from "./crud/getAllPosts";
 import getById from "./crud/getById";
 import searchPosts from "./search/searchPosts";
+import addPostView from "./views/addView";
 import postDownvote from "./votes/downvote";
 import postUpvote from "./votes/upvote";
 
@@ -36,5 +37,8 @@ postsRouter.use("/posts/comment/", editComment);
 postsRouter.use("/posts/comment/", getComments);
 postsRouter.use("/posts/comment/", commentDownvote);
 postsRouter.use("/posts/comment/", commentUpvote);
+
+// Views
+postsRouter.use("/posts/views/", addPostView);
 
 export default postsRouter;

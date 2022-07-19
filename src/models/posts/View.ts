@@ -2,7 +2,7 @@ import { Model, DataTypes } from "sequelize";
 import db from "../../db/db";
 
 export interface ViewsAttributesInterface {
-  userId: number;
+  userId: number | null;
   postId: number;
   createdByTest?: boolean;
 
@@ -33,6 +33,7 @@ View.init(
       // User id will be null if they are not signed in,
       // we still want to add a new view even if they aren't signed in
       allowNull: true,
+      defaultValue: null,
     },
     postId: {
       type: DataTypes.INTEGER,
