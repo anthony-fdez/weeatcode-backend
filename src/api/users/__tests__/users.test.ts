@@ -85,6 +85,19 @@ describe("User Integration", () => {
     });
   });
 
+  describe("Get user data", () => {
+    test("Should get the data from the user created", async () => {
+      const res = await request.post("/users/user_data").send({
+        userId: userId,
+      });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+  });
+
   describe("Delete", () => {
     test("It should delete the user", async () => {
       const res = await request
