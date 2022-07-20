@@ -93,6 +93,15 @@ describe("Posts Integration", () => {
       expect(statusCode).toBe(200);
       expect(body.status).toBe("ok");
     });
+
+    test("Should get all the posts", async () => {
+      const res = await request.get("/posts/get_all");
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
   });
 
   describe("Test voting", () => {

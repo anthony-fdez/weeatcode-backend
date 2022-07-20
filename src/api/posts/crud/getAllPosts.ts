@@ -9,6 +9,7 @@ import PostVote, {
 } from "../../../models/posts/PostVote";
 import db from "../../../db/db";
 import { parse } from "path";
+import { ok } from "assert";
 
 const router: Router = express.Router();
 
@@ -62,7 +63,7 @@ const getAllPosts = router.get(
       });
     });
 
-    res.json({ posts: parsedPosts });
+    res.json({ status: "ok", posts: parsedPosts });
   })
 );
 

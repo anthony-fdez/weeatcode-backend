@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV= jest --detectOpenHandles --updateSnapshot --verbose --forceExit",
+    "test": "cross-env NODE_ENV= jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
     "build": "tsc",
     "dev-start": "ts-node-dev --respawn src/server.ts",
     "start": "ts-node src/server.ts"
