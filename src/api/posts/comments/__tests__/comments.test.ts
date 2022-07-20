@@ -1,4 +1,4 @@
-import app from "../../app";
+import app from "../../../../app";
 import supertest from "supertest";
 // @ts-ignore This package does not support typescript
 import randomEmail from "random-email";
