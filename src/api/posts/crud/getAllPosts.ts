@@ -10,6 +10,7 @@ import PostVote, {
 import db from "../../../db/db";
 import { parse } from "path";
 import { ok } from "assert";
+import View from "../../../models/posts/View";
 
 const router: Router = express.Router();
 
@@ -25,8 +26,14 @@ const getAllPosts = router.get(
           required: false,
           as: "votes",
         },
+        {
+          model: View,
+          as: "views",
+        },
       ],
     })) as unknown as PostAttributesInterface[];
+
+    console.log(posts[0]);
 
     const parsedPosts: any = [];
 
@@ -36,6 +43,8 @@ const getAllPosts = router.get(
 
       let downVotes = 0;
       let downVoted = false;
+
+      const views = post.views.length;
 
       post.votes.forEach((vote: PostVoteAttributesInterface) => {
         if (vote.upvote) {
@@ -59,6 +68,7 @@ const getAllPosts = router.get(
         downVotes,
         upVoted,
         downVoted,
+        views,
         post: post.dataValues,
       });
     });

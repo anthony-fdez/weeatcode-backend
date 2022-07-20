@@ -60,7 +60,7 @@ const getVotesHistory = router.get(
         upVoted,
         downVoted,
         // @ts-ignore
-        view: vote.dataValues,
+        vote: vote.dataValues,
         // @ts-ignore
         post: vote.Post,
       });

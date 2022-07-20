@@ -7,6 +7,7 @@ import catchAsync from "../../../middleware/catchAsync";
 import Post from "../../../models/posts/Post";
 import PostVote from "../../../models/posts/PostVote";
 import db from "../../../db/db";
+import View from "../../../models/posts/View";
 
 const router: Router = express.Router();
 
@@ -32,6 +33,10 @@ const getById = router.post(
           model: PostVote,
           as: "votes",
         },
+        {
+          model: View,
+          as: "views",
+        },
       ],
     })) as unknown as PostAttributesInterface;
 
@@ -47,6 +52,9 @@ const getById = router.post(
 
     let upVoted = false;
     let downVoted = false;
+
+    // @ts-ignore
+    let views = post.views.length;
 
     if (post.votes) {
       post.votes.forEach((vote: PostVoteAttributesInterface, index) => {
@@ -73,6 +81,7 @@ const getById = router.post(
       voteScore: upVotes - downVotes,
       upVoted,
       downVoted,
+      views,
       post,
       votes: post.votes,
     });
