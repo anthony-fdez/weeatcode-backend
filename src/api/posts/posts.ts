@@ -15,6 +15,7 @@ import searchPosts from "./search/searchPosts";
 import addPostView from "./views/addView";
 import getViewsHistory from "./views/getViewsHistory";
 import postDownvote from "./votes/downvote";
+import getVotesHistory from "./votes/getVotedPosts";
 import postUpvote from "./votes/upvote";
 
 const postsRouter: Router = express.Router();
@@ -30,6 +31,7 @@ postsRouter.use("/posts", getById);
 // Post votes
 postsRouter.use("/posts", postUpvote);
 postsRouter.use("/posts", postDownvote);
+postsRouter.use("/posts/votes", getVotesHistory);
 
 // Post comments
 postsRouter.use("/posts/comment/", createComment);

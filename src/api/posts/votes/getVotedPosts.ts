@@ -5,30 +5,31 @@ import { IUserRequest } from "../../../middleware/Auth";
 import catchAsync from "../../../middleware/catchAsync";
 import View from "../../../models/posts/View";
 import Post from "../../../models/posts/Post";
-import PostVote from "../../../models/posts/PostVote";
+import PostVote, {
+  PostVoteAttributesInterface,
+} from "../../../models/posts/PostVote";
 
 const router: Router = express.Router();
 
-const getViewsHistory = router.get(
+const getVotesHistory = router.get(
   "/get",
   Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
-    const views: ViewsAttributesInterface[] = (await View.findAll({
+    const votedPosts: PostVoteAttributesInterface[] = (await PostVote.findAll({
       where: {
         userId: req.user?.userId,
       },
-
       include: [
         {
           model: Post,
           include: [{ model: PostVote, as: "votes" }],
         },
       ],
-    })) as unknown as ViewsAttributesInterface[];
+    })) as unknown as PostVoteAttributesInterface[];
 
-    const parsedViews: any = [];
+    const parsedVotedPosts: any = [];
 
-    views.forEach((view, index) => {
+    votedPosts.forEach((vote, index) => {
       let upVotes = 0;
       let upVoted = false;
 
@@ -36,7 +37,7 @@ const getViewsHistory = router.get(
       let downVoted = false;
 
       // @ts-ignore
-      view.Post.votes.forEach((vote: PostVoteAttributesInterface) => {
+      vote.Post.votes.forEach((vote: PostVoteAttributesInterface) => {
         if (vote.upvote) {
           upVotes++;
 
@@ -52,24 +53,24 @@ const getViewsHistory = router.get(
         }
       });
 
-      parsedViews.push({
+      parsedVotedPosts.push({
         voteScore: upVotes - downVotes,
         upVotes,
         downVotes,
         upVoted,
         downVoted,
         // @ts-ignore
-        view: view.dataValues,
+        view: vote.dataValues,
         // @ts-ignore
-        post: view.Post,
+        post: vote.Post,
       });
     });
 
     res.json({
       status: "ok",
-      views: parsedViews,
+      votedPosts: parsedVotedPosts,
     });
   })
 );
 
-export default getViewsHistory;
+export default getVotesHistory;
