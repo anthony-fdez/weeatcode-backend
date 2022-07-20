@@ -1,7 +1,7 @@
 import { ViewsAttributesInterface } from "./../../../models/posts/View";
 import { AuthOptional } from "./../../../middleware/AuthOptional";
 import express, { Response, Router } from "express";
-import { Auth, IUserRequest } from "../../../middleware/Auth";
+import { IUserRequest } from "../../../middleware/Auth";
 import catchAsync from "../../../middleware/catchAsync";
 import View from "../../../models/posts/View";
 
@@ -13,9 +13,7 @@ const addPostView = router.post(
   catchAsync(async (req: IUserRequest, res: Response) => {
     const { postId } = req.body;
 
-    console.log(postId);
-
-    const view: ViewsAttributesInterface = (await View.create({
+    (await View.create({
       postId: postId,
       userId: req.user?.userId || null,
     })) as unknown as ViewsAttributesInterface;

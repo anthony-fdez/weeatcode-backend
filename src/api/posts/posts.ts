@@ -13,6 +13,7 @@ import getAllPosts from "./crud/getAllPosts";
 import getById from "./crud/getById";
 import searchPosts from "./search/searchPosts";
 import addPostView from "./views/addView";
+import getViewsHistory from "./views/getViewsHistory";
 import postDownvote from "./votes/downvote";
 import postUpvote from "./votes/upvote";
 
@@ -40,5 +41,6 @@ postsRouter.use("/posts/comment/", commentUpvote);
 
 // Views
 postsRouter.use("/posts/views/", addPostView);
+postsRouter.use("/posts/views/", getViewsHistory);
 
 export default postsRouter;
