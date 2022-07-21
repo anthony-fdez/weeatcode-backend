@@ -33,8 +33,6 @@ const getAllPosts = router.get(
       ],
     })) as unknown as PostAttributesInterface[];
 
-    console.log(posts[0]);
-
     const parsedPosts: any = [];
 
     await posts.forEach((post: any, index) => {
