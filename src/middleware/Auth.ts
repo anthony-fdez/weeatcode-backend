@@ -18,7 +18,8 @@ export const Auth = async (
   next: NextFunction
 ) => {
   const token = req.header("authorization");
-  if (!token) return res.json({ success: false, message: "Please log in" });
+  if (!token)
+    return res.status(401).json({ status: "err", message: "Please log in" });
 
   try {
     const user: any = await Token.findOne({

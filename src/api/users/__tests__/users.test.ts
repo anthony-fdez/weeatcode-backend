@@ -1,4 +1,4 @@
-import app from "../../app";
+import app from "../../../app";
 import supertest from "supertest";
 // @ts-ignore This package does not support typescript
 import randomEmail from "random-email";
@@ -82,6 +82,19 @@ describe("User Integration", () => {
       expect(body.status).toBe("ok");
 
       loginToken = body.token;
+    });
+  });
+
+  describe("Get user data", () => {
+    test("Should get the data from the user created", async () => {
+      const res = await request.post("/users/user_data").send({
+        userId: userId,
+      });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
     });
   });
 

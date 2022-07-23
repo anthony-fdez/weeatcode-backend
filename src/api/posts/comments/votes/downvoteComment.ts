@@ -39,8 +39,6 @@ const commentDownvote = router.post(
       });
     }
 
-    console.log(commentExists);
-
     const commentVoteRecord = (await CommentVote.findOne({
       where: {
         commentId,

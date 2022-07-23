@@ -33,7 +33,6 @@ const getUserData = router.post(
       include: [
         {
           model: Post,
-          required: false,
           as: "posts",
           include: [
             {
@@ -44,6 +43,12 @@ const getUserData = router.post(
         },
       ],
     })) as unknown as UserAttributesInterface;
+
+    if (!user)
+      return res.status(401).send({
+        status: "err",
+        message: "User not found",
+      });
 
     const posts: any = [];
 
