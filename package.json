@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "env-cmd -f .env.development jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
+    "test": "jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
     "build": "tsc",
     "dev-start": "ts-node-dev --respawn src/server.ts",
-    "start:dev": "env-cmd -f .env.development ts-node src/server.ts",
+    "start:dev": "ts-node src/server.ts",
     "start:prod": "env-cmd -f .env.production ts-node src/server.ts"
   },
   "keywords": [],
