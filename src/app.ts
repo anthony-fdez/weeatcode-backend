@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+require("dotenv").config({ path: `.env.development` });
+
 import express, { urlencoded } from "express";
 import cors from "cors";
 

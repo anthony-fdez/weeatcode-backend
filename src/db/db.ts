@@ -1,4 +1,3 @@
-import config from "config";
 import { Sequelize } from "sequelize";
 
 interface ICredentials {
@@ -11,11 +10,11 @@ interface ICredentials {
 }
 
 const credentials: ICredentials = {
-  user: config.get("PGUSER"),
-  host: config.get("PGHOST"),
-  database: config.get("PGDATABASE"),
-  password: config.get("PGPASSWORD"),
-  port: parseInt(config.get("PGPORT") || "", 10),
+  user: process.env.PGUSER || "",
+  host: process.env.PGHOST || "",
+  database: process.env.PGDATABASE || "",
+  password: process.env.PGPASSWORD || "",
+  port: parseInt(process.env.PGPORT || "", 10),
   ssl: true,
 };
 

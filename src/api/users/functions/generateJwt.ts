@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import config from "config";
 import Token from "../../../models/users/Token";
 
 interface NewTokenInterface {
@@ -12,7 +11,7 @@ export const generateToken = async ({ email, userId }: NewTokenInterface) => {
     throw new Error("Undefined id came in the generate token function");
   }
 
-  const token = jwt.sign({ email, userId }, config.get("JWT_SECRET"));
+  const token = jwt.sign({ email, userId }, process.env.JWT_SECRET || "");
 
   await Token.create({
     userId: userId,

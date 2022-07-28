@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import config from "config";
 import { logger } from "../config/logger";
 import db from "./db/db";
 import app from "./app";
 
-const PORT = config.get("PORT");
+const PORT = process.env.PORT || 3001;
 
 export const server = app.listen(PORT, async () => {
   try {
