@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "test": "cross-env NODE_ENV= jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
+    "test": "jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
     "build": "tsc",
     "dev-start": "ts-node-dev --respawn src/server.ts",
     "start": "ts-node src/server.ts"

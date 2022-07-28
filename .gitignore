@@ -1,6 +1,7 @@
 node_modules
 coverage
 .env
+.env.production
 
 dist
 # extra folder that RIDER IDE creates
