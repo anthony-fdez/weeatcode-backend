@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV= jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
+    "test": "env-cmd -f .env.development jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
     "build": "tsc",
     "dev-start": "ts-node-dev --respawn src/server.ts",
-    "start": "ts-node src/server.ts"
+    "start:dev": "env-cmd -f .env.development ts-node src/server.ts",
+    "start:prod": "env-cmd -f .env.production ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +42,7 @@
     "config": "^3.3.7",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
+    "env-cmd": "^10.1.0",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^13.0.3",
