@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-import bcrypt from "bcrypt";
 import { DataTypes, Model } from "sequelize";
 import db from "../../db/db";
 
