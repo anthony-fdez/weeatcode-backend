@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 import { Model, DataTypes } from "sequelize";
-import config from "config";
 import bcrypt from "bcrypt";
 import db from "../../db/db";
 import Token from "./Token";
@@ -72,7 +71,9 @@ User.init(
         // this hook helps us create this password hash before it is saved in the database
         // it is a sequelize built in method
         const user = data as unknown as UserAttributesInterface;
-        const salt = await bcrypt.genSalt(parseInt(config.get("BCRYPT"), 10));
+        const salt = await bcrypt.genSalt(
+          parseInt(process.env.BCRYPT || "12", 10)
+        );
         user.password = await bcrypt.hash(user.password, salt);
       },
     },
