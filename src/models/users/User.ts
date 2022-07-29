@@ -6,6 +6,7 @@ import Token from "./Token";
 import Post, { PostAttributesInterface } from "../posts/Post";
 import PostVote from "../posts/PostVote";
 import Comment from "../posts/Comment";
+import Follow from "./Follow";
 
 /**
  * with interfaces we can call them likes this
@@ -89,5 +90,9 @@ User.hasMany(PostVote, { foreignKey: "userId", as: "postVotes" });
 User.hasMany(Comment, { foreignKey: "userId", as: "comments" });
 
 Token.belongsTo(User, { foreignKey: "userId" });
+
+// Followers
+User.hasMany(Follow, { as: "following", foreignKey: "userId" });
+User.hasMany(Follow, { as: "followers", foreignKey: "followingUserId" });
 
 export default User;
