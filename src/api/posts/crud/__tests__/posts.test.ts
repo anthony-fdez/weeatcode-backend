@@ -95,7 +95,7 @@ describe("Posts Integration", () => {
     });
 
     test("Should get all the posts", async () => {
-      const res = await request.get("/posts/get_all");
+      const res = await request.get("/posts/get_all?page=1");
 
       const { statusCode, body } = res;
 

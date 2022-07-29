@@ -1,3 +1,5 @@
+import { paginateArray } from "./../../../utils/paginateArray";
+import { parse } from "path";
 import { AuthOptional } from "./../../../middleware/AuthOptional";
 import { PostAttributesInterface } from "./../../../models/posts/Post";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
@@ -7,9 +9,6 @@ import Post from "../../../models/posts/Post";
 import PostVote, {
   PostVoteAttributesInterface,
 } from "../../../models/posts/PostVote";
-import db from "../../../db/db";
-import { parse } from "path";
-import { ok } from "assert";
 import View from "../../../models/posts/View";
 
 const router: Router = express.Router();
@@ -18,6 +17,24 @@ const getAllPosts = router.get(
   "/get_all",
   AuthOptional,
   catchAsync(async (req: IUserRequest, res: Response) => {
+    if (!req.query.page)
+      return res.status(400).send({
+        status: "error",
+        message: "Please specify the page.",
+      });
+
+    // @ts-ignore
+    const page = parseInt(req.query.page);
+    const startIndex = (page - 1) * 10;
+    const endIndex = page * 10;
+
+    if (page <= 0) {
+      return res.status(400).send({
+        status: "error",
+        message: "Page should be greater than 0.",
+      });
+    }
+
     const posts: PostAttributesInterface[] = (await Post.findAll({
       // @ts-ignore
       include: [
@@ -71,7 +88,10 @@ const getAllPosts = router.get(
       });
     });
 
-    res.json({ status: "ok", posts: parsedPosts });
+    res.json({
+      status: "ok",
+      posts: paginateArray({ array: parsedPosts, startIndex, endIndex }),
+    });
   })
 );
 
