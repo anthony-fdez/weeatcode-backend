@@ -10,6 +10,7 @@ describe("User Integration", () => {
   const email = randomEmail();
   const password = "12345678";
   let userId: number;
+  let userToFollowId: number;
   let loginToken: string;
 
   //Create user
@@ -30,6 +31,24 @@ describe("User Integration", () => {
       expect(body.user.userId).toEqual(expect.any(Number));
 
       userId = body.user.userId;
+    });
+
+    test("Should create the user to follow", async () => {
+      const res = await request.post("/users/signup").send({
+        name: "Test Test",
+        email: "2" + email,
+        password: password,
+        createdByTest: true,
+      });
+
+      const { statusCode, body } = res;
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+
+      expect(body.user.userId).toEqual(expect.any(Number));
+
+      userToFollowId = body.user.userId;
     });
   });
 
@@ -95,6 +114,59 @@ describe("User Integration", () => {
 
       expect(statusCode).toBe(200);
       expect(body.status).toBe("ok");
+    });
+  });
+
+  describe("Follow users", () => {
+    test("Should follow user", async () => {
+      const res = await request
+        .post("/users/follow")
+        .send({
+          userId: userToFollowId,
+          userName: "test",
+        })
+        .set({ Authorization: loginToken });
+
+      const { statusCode, body } = res;
+
+      console.log(res);
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("Should unfollow user", async () => {
+      const res = await request
+        .post("/users/follow")
+        .send({
+          userId: userToFollowId,
+          userName: "test",
+        })
+        .set({ Authorization: loginToken });
+
+      const { statusCode, body } = res;
+
+      console.log(res);
+
+      expect(statusCode).toBe(200);
+      expect(body.status).toBe("ok");
+    });
+
+    test("Should try to follow itself", async () => {
+      const res = await request
+        .post("/users/follow")
+        .send({
+          userId: userId,
+          userName: "test",
+        })
+        .set({ Authorization: loginToken });
+
+      const { statusCode, body } = res;
+
+      console.log(res);
+
+      expect(statusCode).toBe(400);
+      expect(body.status).toBe("err");
     });
   });
 
