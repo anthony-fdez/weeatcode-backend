@@ -7,9 +7,11 @@ import logoutAll from "./endpoints/logoutAll";
 import getUserData from "./endpoints/getUserData";
 import getFollowers from "./follow/getFollowers";
 import follow from "./follow/follow";
+import testAuth from "./endpoints/testAuth";
 
 const usersRouter: Router = express.Router();
 
+usersRouter.use("/users", testAuth);
 usersRouter.use("/users", signup);
 usersRouter.use("/users", deleteUser);
 usersRouter.use("/users", login);
