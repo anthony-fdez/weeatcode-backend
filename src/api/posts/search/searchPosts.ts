@@ -73,6 +73,8 @@ const searchPosts = router.post(
       const views = post.views.length;
 
       post.votes.forEach((vote: PostVoteAttributesInterface) => {
+        if (!req.user?.userId) return;
+
         if (vote.upvote) {
           upVotes++;
 
@@ -105,14 +107,14 @@ const searchPosts = router.post(
           [Op.iLike]: `%${text}%`,
         },
       },
+      attributes: {
+        exclude: ["password"],
+      },
       include: [
         {
           model: Follow,
           as: "followers",
           required: false,
-          where: {
-            userId: req.user?.userId,
-          },
         },
       ],
     })) as unknown as UserAttributesInterface[];
