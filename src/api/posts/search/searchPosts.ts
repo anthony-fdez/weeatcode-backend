@@ -1,5 +1,6 @@
+import { FollowAttributesInterface } from "./../../../models/users/Follow";
+import User, { UserAttributesInterface } from "./../../../models/users/User";
 import { PostVoteAttributesInterface } from "./../../../models/posts/PostVote";
-import { Sequelize } from "sequelize";
 import { PostAttributesInterface } from "./../../../models/posts/Post";
 import { AuthOptional } from "./../../../middleware/AuthOptional";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
@@ -10,6 +11,7 @@ import { Op } from "sequelize";
 import catchAsync from "../../../middleware/catchAsync";
 import PostVote from "../../../models/posts/PostVote";
 import View from "../../../models/posts/View";
+import Follow from "../../../models/users/Follow";
 
 const router: Router = express.Router();
 
@@ -97,7 +99,43 @@ const searchPosts = router.post(
       });
     });
 
-    res.send({ status: "ok", posts: parsedPosts });
+    const users: UserAttributesInterface[] = (await User.findAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${text}%`,
+        },
+      },
+      include: [
+        {
+          model: Follow,
+          as: "followers",
+          required: false,
+          where: {
+            userId: req.user?.userId,
+          },
+        },
+      ],
+    })) as unknown as UserAttributesInterface[];
+
+    const formattedUsers: any = [];
+
+    users.forEach((user: any) => {
+      let following = false;
+
+      user.followers.forEach((follower: FollowAttributesInterface) => {
+        console.log(follower);
+        if (follower.userId === req.user?.userId) {
+          following = true;
+        }
+      });
+
+      formattedUsers.push({
+        following,
+        user,
+      });
+    });
+
+    res.send({ status: "ok", posts: parsedPosts, users: formattedUsers });
   })
 );
 
