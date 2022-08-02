@@ -47,6 +47,11 @@ const getUserData = router.post(
           as: "followers",
           required: false,
         },
+        {
+          model: Follow,
+          as: "following",
+          required: false,
+        },
       ],
     })) as unknown as UserAttributesInterface;
 
@@ -98,12 +103,18 @@ const getUserData = router.post(
       });
     }
 
+    let followers = 0;
+
     if (user.followers) {
       user.followers.forEach((follow) => {
         if (follow.userId === req.user?.userId) {
           following = true;
         }
       });
+
+      if (user.followers[0].id) {
+        followers = user.followers.length;
+      }
     }
 
     res.send({
@@ -112,7 +123,7 @@ const getUserData = router.post(
         totalPosts: posts.length,
         following,
         user,
-
+        followers,
         posts: posts,
       },
     });
