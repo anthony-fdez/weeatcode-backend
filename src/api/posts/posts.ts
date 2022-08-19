@@ -11,6 +11,7 @@ import deletePost from "./crud/deletePost";
 import editPost from "./crud/editPost";
 import getAllPosts from "./crud/getAllPosts";
 import getById from "./crud/getById";
+import getAllFollowing from "./crud/getFollowingPosts";
 import searchPosts from "./search/searchPosts";
 import addPostView from "./views/addView";
 import getViewsHistory from "./views/getViewsHistory";
@@ -26,6 +27,7 @@ postsRouter.use("/posts", deletePost);
 postsRouter.use("/posts", editPost);
 postsRouter.use("/posts", searchPosts);
 postsRouter.use("/posts", getAllPosts);
+postsRouter.use("/posts", getAllFollowing);
 postsRouter.use("/posts", getById);
 
 // Post votes
