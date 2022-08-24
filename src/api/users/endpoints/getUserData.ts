@@ -117,6 +117,14 @@ const getUserData = router.post(
       }
     }
 
+    let totalFollowing = 0;
+
+    if (user.following) {
+      if (user.following[0].id) {
+        totalFollowing = user.following.length;
+      }
+    }
+
     res.send({
       status: "ok",
       data: {
@@ -124,6 +132,7 @@ const getUserData = router.post(
         following,
         user,
         followers,
+        totalFollowing,
         posts: posts,
       },
     });
