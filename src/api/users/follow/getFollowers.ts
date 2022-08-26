@@ -25,6 +25,7 @@ const getFollowers = router.post(
       where: {
         followingUserId: userId,
       },
+      order: [["createdAt", "DESC"]],
     })) as unknown as FollowAttributesInterface[];
 
     const formattedFollowers: any = [];
@@ -38,7 +39,7 @@ const getFollowers = router.post(
 
       formattedFollowers.push({
         following,
-        follower,
+        user: follower,
       });
     });
 

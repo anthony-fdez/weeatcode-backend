@@ -28,6 +28,7 @@ const getFollowing = router.post(
           userId: [userId, req.user?.userId],
         },
       },
+      order: [["createdAt", "DESC"]],
     })) as unknown as FollowAttributesInterface[];
 
     const formattedFollowing: any = [];
