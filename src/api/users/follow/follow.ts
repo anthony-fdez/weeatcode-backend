@@ -13,7 +13,7 @@ const follow = router.post(
   "/follow",
   Auth,
   catchAsync(async (req: IUserRequest, res: Response, next: NextFunction) => {
-    const { userId, userName } = req.body;
+    const { userId, userName, followingUserName } = req.body;
 
     if (!userId)
       return res.status(400).send({
@@ -25,6 +25,12 @@ const follow = router.post(
       return res.status(400).send({
         status: "err",
         message: "Field 'userName' is required",
+      });
+
+    if (!followingUserName)
+      return res.status(400).send({
+        status: "err",
+        message: "Field 'followingUserName' is required",
       });
 
     if (userId === req.user?.userId) {
@@ -58,13 +64,14 @@ const follow = router.post(
 
       await Follow.create({
         userId: req.user?.userId,
+        userName,
         followingUserId: userId,
-        followingUserName: userName,
+        followingUserName,
       });
 
       return res.send({ status: "ok", message: "User followed" });
     } else {
-      const deletedFollow = await Follow.destroy({
+      await Follow.destroy({
         where: {
           userId: req.user?.userId,
           followingUserId: userId,
@@ -73,8 +80,6 @@ const follow = router.post(
 
       return res.send({ status: "ok", message: "User unfollowed" });
     }
-
-    res.send({ status: "ok", message: "Following user", followRecord });
   })
 );
 

@@ -124,12 +124,11 @@ describe("User Integration", () => {
         .send({
           userId: userToFollowId,
           userName: "test",
+          followingUserName: "test",
         })
         .set({ Authorization: loginToken });
 
       const { statusCode, body } = res;
-
-      console.log(res);
 
       expect(statusCode).toBe(200);
       expect(body.status).toBe("ok");
@@ -141,6 +140,7 @@ describe("User Integration", () => {
         .send({
           userId: userToFollowId,
           userName: "test",
+          followingUserName: "test",
         })
         .set({ Authorization: loginToken });
 
