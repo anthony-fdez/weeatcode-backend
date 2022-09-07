@@ -9,7 +9,6 @@ import usersRouter from "./api/users/users";
 import postsRouter from "./api/posts/posts";
 import error from "./middleware/error";
 
-// Export the app so we can use it it the tests
 const app = express();
 
 app.use(cors());
