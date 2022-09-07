@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "test": "jest --detectOpenHandles --updateSnapshot --verbose --forceExit --coverage",
     "build": "tsc",
@@ -39,7 +39,6 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "config": "^3.3.7",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "env-cmd": "^10.1.0",

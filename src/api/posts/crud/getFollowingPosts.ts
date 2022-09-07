@@ -1,21 +1,20 @@
+import { PostVoteAttributesInterface } from "./../../../models/posts/PostVote";
 import { paginateArray } from "./../../../utils/paginateArray";
-import { parse } from "path";
-import { AuthOptional } from "./../../../middleware/AuthOptional";
-import { PostAttributesInterface } from "./../../../models/posts/Post";
+import { Op } from "sequelize";
+import { FollowAttributesInterface } from "./../../../models/users/Follow";
+import Post, { PostAttributesInterface } from "./../../../models/posts/Post";
+import express, { Response, Router } from "express";
 import { Auth, IUserRequest } from "../../../middleware/Auth";
-import express, { Router, Response, raw } from "express";
 import catchAsync from "../../../middleware/catchAsync";
-import Post from "../../../models/posts/Post";
-import PostVote, {
-  PostVoteAttributesInterface,
-} from "../../../models/posts/PostVote";
+import PostVote from "../../../models/posts/PostVote";
 import View from "../../../models/posts/View";
+import Follow from "../../../models/users/Follow";
 
 const router: Router = express.Router();
 
-const getAllPosts = router.get(
-  "/get_all",
-  AuthOptional,
+const getAllFollowing = router.get(
+  "/get_all_following",
+  Auth,
   catchAsync(async (req: IUserRequest, res: Response) => {
     if (!req.query.page)
       return res.status(400).send({
@@ -35,6 +34,20 @@ const getAllPosts = router.get(
       });
     }
 
+    const following: FollowAttributesInterface[] = (await Follow.findAll({
+      where: {
+        userId: req.user?.userId,
+      },
+      attributes: ["followingUserId"],
+    })) as unknown as FollowAttributesInterface[];
+
+    const followingUsersId: number[] = [];
+
+    following.forEach((user) => {
+      if (!user.followingUserId) return;
+      followingUsersId.push(user.followingUserId);
+    });
+
     const posts: PostAttributesInterface[] = (await Post.findAll({
       // @ts-ignore
       include: [
@@ -45,9 +58,15 @@ const getAllPosts = router.get(
         },
         {
           model: View,
+          required: false,
           as: "views",
         },
       ],
+      where: {
+        authorId: {
+          [Op.in]: followingUsersId,
+        },
+      },
     })) as unknown as PostAttributesInterface[];
 
     const parsedPosts: any = [];
@@ -95,4 +114,6 @@ const getAllPosts = router.get(
   })
 );
 
-export default getAllPosts;
+export default getAllFollowing;
+
+//611

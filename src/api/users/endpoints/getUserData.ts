@@ -8,6 +8,7 @@ import catchAsync from "../../../middleware/catchAsync";
 import User from "../../../models/users/User";
 import Post, { PostAttributesInterface } from "../../../models/posts/Post";
 import PostVote from "../../../models/posts/PostVote";
+import Follow from "../../../models/users/Follow";
 
 const router: Router = express.Router();
 
@@ -41,6 +42,16 @@ const getUserData = router.post(
             },
           ],
         },
+        {
+          model: Follow,
+          as: "followers",
+          required: false,
+        },
+        {
+          model: Follow,
+          as: "following",
+          required: false,
+        },
       ],
     })) as unknown as UserAttributesInterface;
 
@@ -51,6 +62,7 @@ const getUserData = router.post(
       });
 
     const posts: any = [];
+    let following: boolean = false;
 
     if (user.posts) {
       user.posts.forEach((post: PostAttributesInterface) => {
@@ -91,11 +103,36 @@ const getUserData = router.post(
       });
     }
 
+    let followers = 0;
+
+    if (user.followers) {
+      user.followers.forEach((follow) => {
+        if (follow.userId === req.user?.userId) {
+          following = true;
+        }
+      });
+
+      if (user.followers[0].id) {
+        followers = user.followers.length;
+      }
+    }
+
+    let totalFollowing = 0;
+
+    if (user.following) {
+      if (user.following[0].id) {
+        totalFollowing = user.following.length;
+      }
+    }
+
     res.send({
       status: "ok",
       data: {
         totalPosts: posts.length,
+        following,
         user,
+        followers,
+        totalFollowing,
         posts: posts,
       },
     });
